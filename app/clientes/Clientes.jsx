@@ -1,18 +1,33 @@
-import { useState } from 'react';
-import { Text } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import { StyleSheet, Text } from 'react-native';
+import { Button } from 'react-native-paper';
 import { Stack } from 'expo-router';
-import { COLORS } from '../../constants';
+import { COLORS, cedulaMask, phoneMask } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import MaskInput from 'react-native-mask-input';
 
-import styles from './cliente.style';
+import { useForm } from 'react-hook-form';
+import {CustomInput, MaskedInput} from '../../utils/components';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Clientes() {
     
-    const [text, setText] = useState("");
-    const [phone, setPhone] = useState("");
+    const { 
+        control, 
+        handleSubmit, 
+        formState: {errors} 
+    } = useForm({
+        defaultValues: {
+            nombre: "",
+            direccion: "",
+            cedula: "",
+            telefono: ""
+        }
+    });
+
+    const { counter } = useSelector(state => state.cliente)
+    const dispatch = useDispatch()
     
+    const onCreateClient = data => console.log({formState});
+
 
     return (
         <SafeAreaView style={{ flex: 1, padding: 10 }}>
@@ -24,54 +39,43 @@ export default function Clientes() {
             }}>
             </Stack.Screen>
 
-            <Text style={styles.label}>Crear nuevo cliente</Text>
-
-            <TextInput
-                label="Nombre"
-                value={text}
-                onChangeText={text => setText(text)}
-                mode='outlined'
-                activeOutlineColor={COLORS.lightRed}
-                style={styles.input}
+            <Text style={styles.label}>Crear nuevo clientes</Text>
+            
+            <CustomInput 
+                control={control}
+                name='nombre'
+                label='Nombre'
+                required='El nombre es requerido'
             />
-            <TextInput
-                label="Direccion"
-                value={text}
-                onChangeText={text => setText(text)}
-                mode='outlined'
-                activeOutlineColor={COLORS.lightRed}
-                style={styles.input}
+            <CustomInput 
+                control={control}
+                name='direccion'
+                label='Direccion'
+                required='La direccion es requerido'
             />
-            <TextInput
-                label="Cedula"
-                value={text}
-                onChangeText={text => setText(text)}
-                mode='outlined'
-                activeOutlineColor={COLORS.lightRed}
-                style={styles.input}
+            <MaskedInput 
+                control={control}
+                name='cedula'
+                label='Cedula'
+                required='La cedula es requerido'
+                minLenght={{value: 13, message: 'La cedula debe tener 11 digitos'}}
+                placeholder={'000-0000000-0'}
+                mask={cedulaMask}
             />
-            <TextInput
-                label="Telefono"
-                placeholder='(999)-999-9999'
-                value={phone}
-                mode='outlined'
-                keyboardType='numeric'
-                activeOutlineColor={COLORS.lightRed}
-                //OnChangeText: (masked, unmasked) => {}
-                onChangeText={text => setPhone(text)}
-                render={props =>
-                    <MaskInput
-                        {...props}
-                        mask={['(', /\d/, /\d/, /\d/, ')', '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                    />
-                }
-                style={styles.input}
+            <MaskedInput
+                control={control}
+                name='telefono'
+                label='Numero Telefonico'
+                required='El telefono es requerido'
+                minLenght={{value: 11, message: 'El numero telefonico debe tener 10 digitos'}}
+                placeholder={'(000)-000-0000'}
+                mask={phoneMask}
             />
-
+            
             <Button
                 icon="account-plus"
                 mode="contained"
-                onPress={() => {}}
+                onPress={handleSubmit(onCreateClient)}
                 buttonColor={COLORS.lightRed}
             >
                 Crear cliente
@@ -79,3 +83,13 @@ export default function Clientes() {
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    input: {
+        marginBottom: 15
+    },
+    label: {
+        fontSize: 20,
+        alignSelf: 'center'
+    }
+})

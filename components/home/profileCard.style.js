@@ -6,7 +6,9 @@ const styles = StyleSheet.create({
         height: 150
     },
     label: {
-        fontSize: 20
+        fontSize: 20,
+        fontStyle: 'italic',
+        fontWeight: '500'
     }
 });
 
