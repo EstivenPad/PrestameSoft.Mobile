@@ -1,1 +1,1 @@
-export * from './clientes/clienteSlice';
+export * from './clients/clientSlice';

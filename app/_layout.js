@@ -1,4 +1,4 @@
-import { Slot, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';

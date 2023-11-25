@@ -20,7 +20,6 @@ export function MaskedInput({control, name, label, required, minLenght, placehol
                         mode='outlined'
                         keyboardType='numeric'
                         activeOutlineColor={COLORS.darkGray}
-                        //OnChangeText: (masked, unmasked) => {}
                         onChangeText={onChange}
                         render={props =>
                             <MaskInput

@@ -5,15 +5,16 @@ import { COLORS, cedulaMask, phoneMask } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useForm } from 'react-hook-form';
-import {CustomInput, MaskedInput} from '../../utils/components';
+import { CustomInput, MaskedInput } from '../../components/common';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
-export default function Clientes() {
+export default function Client() {
     
     const { 
         control, 
         handleSubmit, 
-        formState: {errors} 
+        formState: { errors }, 
     } = useForm({
         defaultValues: {
             nombre: "",
@@ -23,10 +24,18 @@ export default function Clientes() {
         }
     });
 
-    const { counter } = useSelector(state => state.cliente)
+    const { clients } = useSelector(state => state.client)
     const dispatch = useDispatch()
     
-    const onCreateClient = data => console.log({formState});
+    // useEffect(() => {
+    //   console.log(formState)
+    // }, [formState])
+    
+
+    const onCreateClient = (data) => {
+        console.log(data);
+        // alert(JSON.stringify(data))
+    };
 
 
     return (
@@ -39,7 +48,7 @@ export default function Clientes() {
             }}>
             </Stack.Screen>
 
-            <Text style={styles.label}>Crear nuevo clientes</Text>
+            <Text style={styles.label}>Crear nuevo cliente</Text>
             
             <CustomInput 
                 control={control}

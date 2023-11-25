@@ -1,5 +1,4 @@
-import { TouchableOpacity, Image, Text, View } from 'react-native';
-import styles from './profileCard.style';
+import { TouchableOpacity, Image, Text, View, StyleSheet } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 
 export default function ProfileCard({ iconUrl, name }) {
@@ -17,3 +16,15 @@ export default function ProfileCard({ iconUrl, name }) {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    icon: {
+        width: 150,
+        height: 150
+    },
+    label: {
+        fontSize: 20,
+        fontStyle: 'italic',
+        fontWeight: '500'
+    }
+});
