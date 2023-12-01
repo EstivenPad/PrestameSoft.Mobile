@@ -3,13 +3,23 @@ import { createSlice } from '@reduxjs/toolkit';
 export const clientSlice = createSlice({
     name: 'client',
     initialState: {
-        clients: []       
+        clients: [],
+        activeClient: null,
+        messageSaved: ''
     },
     reducers: {
-        setInitialState: (state) => {
+        onSetInitialState: (state) => {
             state.clients = [];
+            state.activeClient = null;
+            state.messageSaved = '';
         },
+        onSetActiveClient: (state, { payload }) => {
+            state.activeClient = payload;
+        },
+        onGetClients: (state, actions) => {
+            state.clients = actions.payload;
+        }
     }
 });
 
-export const { setInitialState } = clientSlice.actions;
+export const { setInitialState, onGetClients, onSetActiveClient } = clientSlice.actions;

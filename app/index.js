@@ -13,6 +13,7 @@ export default function Main() {
                 headerTintColor: COLORS.white
             }}>
             </Stack.Screen>
+            
             <View style={{flex: 1, paddingVertical: 20}}>
                 <Text style={{fontSize: 20}}>Seleccione su usuario:</Text>
                 <ProfileCard iconUrl={icons.avatar} name={'Braylin'}/>
