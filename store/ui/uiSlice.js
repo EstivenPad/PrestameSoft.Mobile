@@ -6,14 +6,14 @@ export const uiSlice = createSlice({
         isSaving: false
     },
     reducers: {
-        setSavingTrue: (state) => {
+        onSetSavingTrue: (state) => {
             state.isSaving = true;
         },
-        setSavingFalse: (state) => {
+        onSetSavingFalse: (state) => {
             state.isSaving = false;
         }
     }
 });
 
 
-export const { setSavingTrue, setSavingFalse } = uiSlice.actions;
+export const { onSetSavingTrue, onSetSavingFalse } = uiSlice.actions;

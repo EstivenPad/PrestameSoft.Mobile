@@ -1,24 +1,21 @@
 import { StyleSheet, Text } from "react-native";
 import { Button } from "react-native-paper";
-import { Stack } from "expo-router";
-import { COLORS, cedulaMask, phoneMask } from "../../constants";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { COLORS, cedulaMask, phoneMask } from "../../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CustomInput, MaskedInput } from "../../../components/common";
 
 import { useForm } from "react-hook-form";
-import { CustomInput, MaskedInput } from "../../components/common";
-import { useClientStore } from "../../hooks/useClientStore";
+import { useClientStore, useUiStore } from "../../../hooks";
 
-export default function Client() {
+export default function ClientDetail() {
+
+    const { activeClient, setNewClient } = useClientStore();
+    const { isSaving } = useUiStore();
+
     const { control, handleSubmit } = useForm({
-        defaultValues: {
-            nombre: "",
-            direccion: "",
-            cedula: "",
-            telefono: "",
-        },
+        defaultValues: activeClient
     });
-
-    const { setNewClient } = useClientStore();
 
     const onCreateClient = (data) => {
         setNewClient(data);
@@ -42,12 +39,14 @@ export default function Client() {
                 name="nombre"
                 label="Nombre"
                 required="El nombre es requerido"
+                isSaving={isSaving}
             />
             <CustomInput
                 control={control}
                 name="direccion"
                 label="Direccion"
                 required="La direccion es requerido"
+                isSaving={isSaving}
             />
             <MaskedInput
                 control={control}
@@ -60,6 +59,7 @@ export default function Client() {
                 }}
                 placeholder={"000-0000000-0"}
                 mask={cedulaMask}
+                isSaving={isSaving}
             />
             <MaskedInput
                 control={control}
@@ -72,6 +72,7 @@ export default function Client() {
                 }}
                 placeholder={"(000)-000-0000"}
                 mask={phoneMask}
+                isSaving={isSaving}
             />
 
             <Button
@@ -79,6 +80,8 @@ export default function Client() {
                 mode="contained"
                 onPress={handleSubmit(onCreateClient)}
                 buttonColor={COLORS.lightRed}
+                loading={isSaving}
+                isSaving={isSaving}
             >
                 Crear cliente
             </Button>

@@ -1,4 +1,4 @@
-import { Stack, Link, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../constants";
 
@@ -23,26 +23,24 @@ export default function Menu() {
                 }}
             ></Stack.Screen>
 
-            {/* <Link href="clients/clientlist" asChild>     */}
-                <TouchableOpacity
-                    onPress={() => navigation.push("clients/clientlist")}
-                    style={styles.menu}
-                >
-                    <Text style={styles.btn_label}>Clientes</Text>
-                </TouchableOpacity>
-            {/* </Link>     */}
+            <TouchableOpacity
+                onPress={() => navigation.push("clients/client-list")}
+                style={styles.btn_options}
+            >
+                <Text style={styles.btn_label}>Clientes</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    menu: {
+    btn_options: {
         backgroundColor: COLORS.lightRed,
         width: "80%",
         height: 50,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 50,
+        borderRadius: 10,
     },
     btn_label: {
         fontSize: 25,
