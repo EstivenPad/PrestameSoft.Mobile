@@ -3,17 +3,34 @@ import { createSlice } from '@reduxjs/toolkit';
 export const uiSlice = createSlice({
     name: 'ui',
     initialState: {
-        isSaving: false
+        isLoading: false,
+        blockItem: false,
+        showDialog: false
     },
     reducers: {
-        onSetSavingTrue: (state) => {
-            state.isSaving = true;
+        onSetLoadingTrue: (state) => {
+            state.isLoading = true;
         },
-        onSetSavingFalse: (state) => {
-            state.isSaving = false;
-        }
+        onSetLoadingFalse: (state) => {
+            state.isLoading = false;
+        },
+        onSwitchDialog: (state) => {
+            state.showDialog = !state.showDialog;
+        },
+        onSetBlockItemTrue: (state) => {
+            state.blockItem = true;
+        },
+        onSetBlockItemFalse: (state) => {
+            state.blockItem = false;
+        },
     }
 });
 
 
-export const { onSetSavingTrue, onSetSavingFalse } = uiSlice.actions;
+export const { 
+    onSetLoadingTrue,
+    onSetLoadingFalse,
+    onSwitchDialog,
+    onSetBlockItemTrue,
+    onSetBlockItemFalse
+} = uiSlice.actions;

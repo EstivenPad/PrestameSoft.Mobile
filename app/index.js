@@ -16,8 +16,8 @@ export default function Main() {
             
             <View style={{flex: 1, paddingVertical: 20}}>
                 <Text style={{fontSize: 20}}>Seleccione su usuario:</Text>
-                <ProfileCard iconUrl={icons.avatar} name={'Braylin'}/>
-                <ProfileCard iconUrl={icons.avatar2} name={'Waldy'}/>
+                {/* <ProfileCard iconUrl={icons.avatar} name={'Braylin'}/> */}
+                <ProfileCard iconUrl={icons.avatar2} name={'User'}/>
             </View>
         </SafeAreaView>
     );

@@ -4,7 +4,17 @@ import { COLORS } from '../../constants'
 import { Controller } from 'react-hook-form';
 import MaskInput from 'react-native-mask-input';
 
-export function MaskedInput({control, name, label, required, minLenght, placeholder, mask, isSaving}) {
+export function MaskedInput({
+    control,
+    name,
+    label,
+    required,
+    minLenght,
+    placeholder,
+    mask,
+    isLoading,
+    blocked
+}) {
     return (
         <Controller
             control={control}
@@ -19,7 +29,7 @@ export function MaskedInput({control, name, label, required, minLenght, placehol
                         onBlur={onBlur}
                         mode='outlined'
                         keyboardType='numeric'
-                        disabled={isSaving}
+                        disabled={isLoading || blocked}
                         activeOutlineColor={COLORS.darkGray}
                         onChangeText={onChange}
                         render={props =>

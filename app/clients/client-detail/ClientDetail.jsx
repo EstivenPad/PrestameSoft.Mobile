@@ -1,24 +1,38 @@
 import { StyleSheet, Text } from "react-native";
 import { Button } from "react-native-paper";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { COLORS, cedulaMask, phoneMask } from "../../../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CustomInput, MaskedInput } from "../../../components/common";
-
 import { useForm } from "react-hook-form";
 import { useClientStore, useUiStore } from "../../../hooks";
+import DeleteClientBtn from "../../../components/clients/DeleteClientBtn";
+import { DialogMessage } from "../../../components/common/DialogMessage";
 
 export default function ClientDetail() {
 
-    const { activeClient, setNewClient } = useClientStore();
-    const { isSaving } = useUiStore();
+    const router = useRouter();
+    const { activeClient, setNewClient, updateClient, deleteClient } = useClientStore();
+    const { isLoading, blockItem, switchDialog } = useUiStore();
 
     const { control, handleSubmit } = useForm({
         defaultValues: activeClient
     });
 
-    const onCreateClient = (data) => {
-        setNewClient(data);
+
+    const handleSaving = async (data) => {
+        if(activeClient?.id)
+            await updateClient(data);
+        else
+            await setNewClient(data);
+
+        router.back();
+    };
+
+    const onDeleteClient = async () => {
+        switchDialog();
+        await deleteClient(activeClient.id);
+        router.back();
     };
 
     return (
@@ -29,8 +43,9 @@ export default function ClientDetail() {
                     headerTitleAlign: "center",
                     headerStyle: { backgroundColor: COLORS.red },
                     headerTintColor: COLORS.white,
+                    headerRight: () => ( (!!activeClient?.id && blockItem) && <DeleteClientBtn/>)
                 }}
-            ></Stack.Screen>
+            />
 
             <Text style={styles.label}>Crear nuevo cliente</Text>
 
@@ -39,14 +54,16 @@ export default function ClientDetail() {
                 name="nombre"
                 label="Nombre"
                 required="El nombre es requerido"
-                isSaving={isSaving}
+                isLoading={isLoading}
+                blocked={blockItem}
             />
             <CustomInput
                 control={control}
                 name="direccion"
                 label="Direccion"
                 required="La direccion es requerido"
-                isSaving={isSaving}
+                isLoading={isLoading}
+                blocked={blockItem}
             />
             <MaskedInput
                 control={control}
@@ -59,7 +76,8 @@ export default function ClientDetail() {
                 }}
                 placeholder={"000-0000000-0"}
                 mask={cedulaMask}
-                isSaving={isSaving}
+                isLoading={isLoading}
+                blocked={blockItem}
             />
             <MaskedInput
                 control={control}
@@ -72,19 +90,24 @@ export default function ClientDetail() {
                 }}
                 placeholder={"(000)-000-0000"}
                 mask={phoneMask}
-                isSaving={isSaving}
+                isLoading={isLoading}
+                blocked={blockItem}
             />
 
             <Button
                 icon="account-plus"
                 mode="contained"
-                onPress={handleSubmit(onCreateClient)}
+                onPress={handleSubmit(handleSaving)}
                 buttonColor={COLORS.lightRed}
-                loading={isSaving}
-                isSaving={isSaving}
+                loading={isLoading}
+                disabled={isLoading || blockItem}
             >
                 Crear cliente
             </Button>
+            
+            {
+                !!activeClient?.id && <DialogMessage title="Eliminar" message="¿Esta seguro que desea eliminar este cliente?" handleAccept={onDeleteClient}/>
+            }
         </SafeAreaView>
     );
 }

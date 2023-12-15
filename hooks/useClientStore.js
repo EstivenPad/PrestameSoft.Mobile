@@ -1,7 +1,16 @@
 import { useDispatch, useSelector } from "react-redux"
-import { onGetClients, onSetActiveClient, onSetSavingFalse, onSetSavingTrue } from "../store";
 import { FirebaseDB } from "../server/firebaseConfig";
-import { addDoc, collection, doc, getDocs } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore/lite";
+import { 
+    onAddNewClient,
+    onSetClients,
+    onSetActiveClient,
+    onSetLoadingFalse,
+    onSetLoadingTrue,
+    onDeleteClientById,
+    onSwitchDialog,
+    onUpdateClientById
+} from "../store";
 
 export const useClientStore = () => {
     const dispatch = useDispatch();
@@ -9,59 +18,81 @@ export const useClientStore = () => {
     const {
         clients,
         activeClient,
-        messageSaved,
     } = useSelector(state => state.client);
 
     const setNewClient = async (client) => {
-
-        dispatch(onSetSavingTrue());
+        dispatch(onSetLoadingTrue());
 
         try {
-
-            const clientRef = await addDoc(collection(FirebaseDB, 'Clientes'), client);
-            console.log("Cliente guardado => ", clientRef.id);
-
+            const clientRef = doc(collection(FirebaseDB, 'Clientes'));
+            await setDoc(clientRef, client);
+            dispatch(onAddNewClient({ id: clientRef.id, ...client }));
         } catch (error) {
             throw new Error(error);
         } finally {
-            dispatch(onSetSavingFalse());
+            dispatch(onSetLoadingFalse());
         }
 
     };
 
-    const getClients = async () => {
-
-        const clientsArr = [];
-
+    const setClients = async () => {
+        dispatch(onSetLoadingTrue());
         try {
-
-            const clientsDB = await getDocs(collection(FirebaseDB, 'Clientes'));
-
-            clientsDB.forEach((doc) => {
-                clientsArr.push({id: doc.id, ...doc.data()});
-            });
+            const clientsRef = await getDocs(collection(FirebaseDB, 'Clientes'));
             
-            dispatch(onGetClients(clientsArr));
+            const clients = [];
+            clientsRef.forEach((doc) => {
+                const { nombre, direccion, cedula, telefono } = doc.data();
+                clients.push({
+                    id: doc.id,
+                    nombre,
+                    direccion,
+                    cedula,
+                    telefono
+                });
+            });
 
+            dispatch(onSetClients(clients));
         } catch (error) {
             throw new Error(error);
+        } finally {            
+            dispatch(onSetLoadingFalse());
         }
 
     };
 
     const setActiveClient = (client = null) => {
         dispatch(onSetActiveClient(client));
-    }
+    };
+
+    const updateClient = async (client = null) => {
+        
+    };
+
+    const deleteClient = async (clientId) => {
+        dispatch(onSetLoadingTrue());
+        try {    
+            await deleteDoc(doc(FirebaseDB, `Clientes/${clientId}`));
+             
+            dispatch(onDeleteClientById(clientId));
+        } catch (error) {
+            throw new Error(error);
+        } finally {
+            dispatch(onSetLoadingFalse());
+            dispatch(onSwitchDialog());
+        }
+    };
 
     return {
         //Properties
         clients,
         activeClient,
-        messageSaved,
 
         //Methods
         setNewClient,
-        getClients,
-        setActiveClient
+        setClients,
+        setActiveClient,
+        updateClient,
+        deleteClient
     };
 }

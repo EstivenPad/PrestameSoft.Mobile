@@ -7,26 +7,48 @@ export const clientSlice = createSlice({
         activeClient: null,
         //  Client structure
         // {
+        //     id: 0,
         //     nombre: "",
         //     direccion: "",
         //     cedula: "",
         //     telefono: "",
         // }
-        messageSaved: ''
     },
     reducers: {
         onSetInitialState: (state) => {
             state.clients = [];
             state.activeClient = null;
-            state.messageSaved = '';
         },
         onSetActiveClient: (state, { payload }) => {
             state.activeClient = payload;
         },
-        onGetClients: (state, actions) => {
-            state.clients = actions.payload;
+        onSetClients: (state, { payload }) => {
+            state.clients = payload;
+        },
+        onAddNewClient: (state, { payload }) => {
+            state.clients.push(payload);
+            state.activeClient = null;
+        },
+        onUpdateClientById: (state, { payload }) => {
+            state.clients = state.clients.map(client => {
+                if(client.id === payload.id)
+                    return payload;
+
+                return client;
+            });
+        },
+        onDeleteClientById: (state, {payload}) => {
+            state.activeClient = null;
+            state.clients = state.clients.filter((client) => client.id !== payload);
         }
     }
 });
 
-export const { setInitialState, onGetClients, onSetActiveClient } = clientSlice.actions;
+export const { 
+    setInitialState, 
+    onSetClients, 
+    onSetActiveClient, 
+    onAddNewClient,
+    onUpdateClientById,
+    onDeleteClientById
+} = clientSlice.actions;

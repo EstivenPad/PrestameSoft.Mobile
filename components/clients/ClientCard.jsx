@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { useDispatch } from "react-redux";
 import { Icon, Menu } from "react-native-paper";
+import { useUiStore } from "../../hooks/useUiStore";
+import { useClientStore } from "../../hooks";
 
 export default function ClientCard({ client }) {    
 
     const router = useRouter();
-    const dispatch = useDispatch();
+
+    const { setBlockItemTrue, setBlockItemFalse } = useUiStore();
+    const { setActiveClient } = useClientStore();
 
     const [showMenu, setShowMenu] = useState(false);
     const [menuAnchor, setMenuAnchor] = useState({ x:0, y:0 });
     const openMenu = () => setShowMenu(true);
     const closeMenu = () => setShowMenu(false);
-
+    
     const onDisplayMenu = ({ nativeEvent }) => {
         const anchor = {
             x: nativeEvent.pageX,
@@ -24,11 +27,17 @@ export default function ClientCard({ client }) {
     }
 
     const onDisplayClient = () => {
-        dispatch(onSetActiveClient(client));
-
-        router.push('clients/client-detail/ClientDetail');
-        
+        setActiveClient(client);
+        setBlockItemTrue();
         closeMenu();
+        router.push('clients/client-detail/ClientDetail');
+    }
+
+    const onEditClient = () => {
+        setActiveClient(client);
+        setBlockItemFalse();
+        closeMenu();
+        router.push('clients/client-detail/ClientDetail');
     }
 
     return (
@@ -43,8 +52,7 @@ export default function ClientCard({ client }) {
                 anchor={menuAnchor}
             >
                 <Menu.Item onPress={onDisplayClient} title="Ver" />
-                <Menu.Item onPress={() => {}} title="Editar" />
-                <Menu.Item onPress={() => {}} title="Borrar" />
+                <Menu.Item onPress={onEditClient} title="Editar" />
             </Menu>
         </View>
     );

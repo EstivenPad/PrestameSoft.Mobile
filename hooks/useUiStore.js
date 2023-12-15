@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onSetSavingFalse, onSetSavingTrue } from "../store";
+import { onSwitchDialog, onSetSavingFalse, onSetSavingTrue, onSetBlockItemTrue, onSetBlockItemFalse } from "../store";
 
 export const useUiStore = () => {
     const dispatch = useDispatch();
     
-    const { isSaving } = useSelector(state => state.ui);
+    const { isLoading, showDialog, blockItem } = useSelector(state => state.ui);
 
     const setSavingTrue = () => {
         dispatch(onSetSavingTrue());
@@ -14,12 +14,29 @@ export const useUiStore = () => {
         dispatch(onSetSavingFalse());
     };
 
+    const setBlockItemTrue = () => {
+        dispatch(onSetBlockItemTrue());
+    };
+
+    const setBlockItemFalse = () => {
+        dispatch(onSetBlockItemFalse());
+    };
+    
+    const switchDialog = () => {
+        dispatch(onSwitchDialog());
+    };
+
     return {
         //Properties
-        isSaving,
-
+        isLoading,
+        showDialog,
+        blockItem,
+        
         //Methods
         setSavingTrue,
-        setSavingFalse
+        setSavingFalse,
+        setBlockItemTrue,
+        setBlockItemFalse,
+        switchDialog
     };
 }

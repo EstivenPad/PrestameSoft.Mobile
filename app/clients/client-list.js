@@ -1,26 +1,17 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { SafeAreaView, StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import { Stack } from "expo-router";
 import { COLORS } from "../../constants";
 import ClientCard from "../../components/clients/ClientCard";
-import AddClientBtn from "../../components/common/header/AddClientBtn";
+import AddClientBtn from "../../components/clients/AddClientBtn";
 import { useClientStore } from "../../hooks/useClientStore";
-
-const mockData = [{
-    id: 1,
-    nombre: 'Etiven',
-    direccion: 'un lugar por ahi',
-    cedula: '123-1231231-1'
-},{
-    id: 2,
-    nombre: 'luis',
-    direccion: 'un lugar por ahi',
-    cedula: '123-1231231-1'
-}];
+import { useUiStore } from "../../hooks/useUiStore";
+import { DialogMessage } from "../../components/common/DialogMessage";
 
 export default function ClientList() {
     
     const { clients } = useClientStore();
-
+    const { isLoading } = useUiStore();
+    
     return (
         <SafeAreaView style={{padding: 15}}>
             <Stack.Screen
@@ -36,18 +27,19 @@ export default function ClientList() {
             />
 
             <View>
-                <FlatList
-                    data={mockData}
-                    renderItem={({item}) => (
-                        <ClientCard client={item}/>
-                    )}
-                    keyExtractor={item => item.id}
-                />
+                { isLoading ? (
+                    <ActivityIndicator size="large"/>
+                ) : (
+                    <FlatList
+                        data={ clients }
+                        renderItem={({ item }) => (
+                            <ClientCard client={ item }/>
+                        )}
+                        keyExtractor={ item => item.id }
+                    />
+                )}
             </View>
         </SafeAreaView>
     );
 }
 
-const styles = StyleSheet.create({
-    
-});

@@ -1,9 +1,16 @@
 import { Stack, useRouter } from "expo-router";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../constants";
+import { useClientStore } from "../hooks/useClientStore";
 
 export default function Menu() {
-    const navigation = useRouter();
+    const router = useRouter();
+    const { setClients } = useClientStore();
+
+    const onClickClients = async () => {
+        router.push('clients/client-list');
+        await setClients();
+    };
 
     return (
         <SafeAreaView
@@ -23,12 +30,12 @@ export default function Menu() {
                 }}
             ></Stack.Screen>
 
-            <TouchableOpacity
-                onPress={() => navigation.push("clients/client-list")}
-                style={styles.btn_options}
-            >
-                <Text style={styles.btn_label}>Clientes</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={onClickClients}
+                    style={styles.btn_options}
+                >
+                    <Text style={styles.btn_label}>Clientes</Text>
+                </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -36,8 +43,9 @@ export default function Menu() {
 const styles = StyleSheet.create({
     btn_options: {
         backgroundColor: COLORS.lightRed,
-        width: "80%",
         height: 50,
+        width: "80%",
+        display: "flex",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,

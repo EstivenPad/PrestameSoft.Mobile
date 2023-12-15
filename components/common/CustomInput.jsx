@@ -3,7 +3,14 @@ import { TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
 import { COLORS } from '../../constants';
 
-export function CustomInput({control, name, label, required, isSaving}) {
+export function CustomInput({
+    control,
+    name,
+    label,
+    required,
+    isLoading,
+    blocked
+}) {
     return (
         <Controller
             control={control}
@@ -18,7 +25,7 @@ export function CustomInput({control, name, label, required, isSaving}) {
                         onBlur={onBlur}
                         mode='outlined'
                         activeOutlineColor={COLORS.darkGray}
-                        disabled={isSaving}
+                        disabled={isLoading || blocked}
                     />
                     {error && (<Text style={{alignSelf: 'stretch', color: error && COLORS.lightRed}}>{error.message}</Text>)}
                 </View>
