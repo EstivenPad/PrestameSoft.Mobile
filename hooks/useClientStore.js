@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { FirebaseDB } from "../server/firebaseConfig";
-import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore/lite";
 import { 
     onAddNewClient,
     onSetClients,
@@ -66,7 +66,20 @@ export const useClientStore = () => {
     };
 
     const updateClient = async (client = null) => {
+        dispatch(onSetLoadingTrue());
         
+        try {
+            const clientToFirestore = {...client};
+            delete clientToFirestore.id;
+
+            const clientRef = doc(FirebaseDB, 'Clientes', activeClient.id);            
+            await updateDoc(clientRef, clientToFirestore);
+            dispatch(onUpdateClientById(client));
+        } catch (error) {
+            throw new Error(error);
+        } finally {
+            dispatch(onSetLoadingFalse());
+        }
     };
 
     const deleteClient = async (clientId) => {

@@ -5,7 +5,6 @@ import ClientCard from "../../components/clients/ClientCard";
 import AddClientBtn from "../../components/clients/AddClientBtn";
 import { useClientStore } from "../../hooks/useClientStore";
 import { useUiStore } from "../../hooks/useUiStore";
-import { DialogMessage } from "../../components/common/DialogMessage";
 
 export default function ClientList() {
     
