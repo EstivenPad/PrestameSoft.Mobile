@@ -34,6 +34,8 @@ export default function ClientPage() {
                             <ClientCard client={ item }/>
                         )}
                         keyExtractor={ item => item.id }
+                        refreshing={isLoading}
+                        onRefresh={() => getClients()}
                     />
                 )}
             </View>

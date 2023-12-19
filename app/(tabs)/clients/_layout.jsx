@@ -10,7 +10,6 @@ const ClientRoot = () => {
                 },
                 headerTintColor: '#fff',
                 headerTitleAlign: "center",
-
             }}
         />
     )
