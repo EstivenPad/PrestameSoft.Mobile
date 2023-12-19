@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native";
 import { Icon } from "react-native-paper";
 import { useClientStore } from "../../hooks/useClientStore";
 
-export default function AddClientBtn() {
+export const AddClientBtn = () => {
         
     const router = useRouter();
     
@@ -17,7 +17,7 @@ export default function AddClientBtn() {
             telefono: ''
         });
 
-        router.push('clients/client-detail/ClientDetail');
+        router.push('/(tabs)/clients/client-detail');
     };
  
     return (
@@ -27,5 +27,6 @@ export default function AddClientBtn() {
             <Icon source="account-plus" size={30} color="#fff" />
         </TouchableOpacity>
     );
-}
+};
+
 

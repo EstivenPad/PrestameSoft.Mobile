@@ -22,7 +22,7 @@ export const clientSlice = createSlice({
         onSetActiveClient: (state, { payload }) => {
             state.activeClient = payload;
         },
-        onSetClients: (state, { payload }) => {
+        onGetClients: (state, { payload }) => {
             state.clients = payload;
         },
         onAddNewClient: (state, { payload }) => {
@@ -46,7 +46,7 @@ export const clientSlice = createSlice({
 
 export const { 
     setInitialState, 
-    onSetClients, 
+    onGetClients, 
     onSetActiveClient, 
     onAddNewClient,
     onUpdateClientById,

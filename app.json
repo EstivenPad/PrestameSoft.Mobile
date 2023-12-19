@@ -3,7 +3,7 @@
     "name": "react-native-prestamos",
     "slug": "react-native-prestamos",
     "version": "1.0.0",
-    "scheme": "acme",
+    "scheme": "react-native-prestamos",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

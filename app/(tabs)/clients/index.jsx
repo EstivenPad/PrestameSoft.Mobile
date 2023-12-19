@@ -1,24 +1,23 @@
-import { SafeAreaView, StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
+import { useEffect } from "react";
+import { SafeAreaView, FlatList, View, ActivityIndicator } from "react-native";
 import { Stack } from "expo-router";
-import { COLORS } from "../../constants";
-import ClientCard from "../../components/clients/ClientCard";
-import AddClientBtn from "../../components/clients/AddClientBtn";
-import { useClientStore } from "../../hooks/useClientStore";
-import { useUiStore } from "../../hooks/useUiStore";
+import { ClientCard, AddClientBtn } from "../../../components/clients";
+import { useClientStore, useUiStore } from "../../../hooks";
 
-export default function ClientList() {
+export default function ClientPage() {
     
-    const { clients } = useClientStore();
+    const { clients, getClients } = useClientStore();
     const { isLoading } = useUiStore();
     
+    useEffect(() => {
+        getClients();
+    }, []);
+
     return (
-        <SafeAreaView style={{padding: 15}}>
+        <SafeAreaView style={{padding: 10}}>
             <Stack.Screen
                 options={{
-                    headerTitle: "Clientes",
-                    headerTitleAlign: "center",
-                    headerStyle: {backgroundColor: COLORS.green},
-                    headerTintColor: "#fff",
+                    headerTitle: 'Clientes',
                     headerRight: () => (
                         <AddClientBtn/>
                     )
@@ -40,5 +39,5 @@ export default function ClientList() {
             </View>
         </SafeAreaView>
     );
-}
+};
 

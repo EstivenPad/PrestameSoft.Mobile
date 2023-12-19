@@ -2,14 +2,13 @@ import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Icon, Menu } from "react-native-paper";
-import { useUiStore } from "../../hooks/useUiStore";
-import { useClientStore } from "../../hooks";
+import { useClientStore, useUiStore } from "../../hooks";
 
-export default function ClientCard({ client }) {    
+export const ClientCard = ({ client }) => {    
 
     const router = useRouter();
 
-    const { setBlockItemTrue, setBlockItemFalse } = useUiStore();
+    const { setBlockItemTrue, setBlockItemFalse, setShowDialogFalse } = useUiStore();
     const { setActiveClient } = useClientStore();
 
     const [showMenu, setShowMenu] = useState(false);
@@ -26,18 +25,24 @@ export default function ClientCard({ client }) {
         openMenu();
     }
 
-    const onDisplayClient = () => {
+    const onShowClient = () => {
         setActiveClient(client);
-        setBlockItemTrue();
-        closeMenu();
-        router.push('clients/client-detail/ClientDetail');
+        
+        setShowDialogFalse(); //Hide the delete dialog just in case
+        setBlockItemTrue(); //Active the inputs and buttons to type in them
+        closeMenu(); //Close de floating menu
+
+        router.push('/(tabs)/clients/client-detail');
     }
 
     const onEditClient = () => {
         setActiveClient(client);
-        setBlockItemFalse();
-        closeMenu();
-        router.push('clients/client-detail/ClientDetail');
+        
+        setShowDialogFalse(); //Hide the delete dialog just in case
+        setBlockItemFalse(); //Disable the inputs and buttons to type in them
+        closeMenu(); //Close de floating menu
+        
+        router.push('/(tabs)/clients/client-detail');
     }
 
     return (
@@ -51,12 +56,12 @@ export default function ClientCard({ client }) {
                 onDismiss={closeMenu}
                 anchor={menuAnchor}
             >
-                <Menu.Item onPress={onDisplayClient} title="Ver" />
+                <Menu.Item onPress={onShowClient} title="Ver" />
                 <Menu.Item onPress={onEditClient} title="Editar" />
             </Menu>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {

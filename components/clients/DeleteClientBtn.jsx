@@ -2,12 +2,12 @@ import { TouchableOpacity } from "react-native";
 import { Icon } from "react-native-paper";
 import { useUiStore } from "../../hooks";
 
-export default function DeleteClientBtn() {
+export const DeleteClientBtn = () => {
     
-    const { switchDialog } = useUiStore();
+    const { setShowDialogTrue } = useUiStore();
 
     const onDeleteClient = () => {
-        switchDialog();
+        setShowDialogTrue();
     };
 
     return (
@@ -17,4 +17,4 @@ export default function DeleteClientBtn() {
             <Icon source="delete" size={30} color="#fff" />
         </TouchableOpacity>
     );
-}
+};

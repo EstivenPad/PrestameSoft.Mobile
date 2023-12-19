@@ -1,19 +1,17 @@
-import { StyleSheet, Text } from "react-native";
+import { SafeAreaView, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-paper";
 import { Stack, useRouter } from "expo-router";
-import { COLORS, cedulaMask, phoneMask } from "../../../constants";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { CustomInput, MaskedInput } from "../../../components/common";
+import { CustomInput, MaskedInput, DialogMessage } from "../../../components/common";
+import { DeleteClientBtn } from "../../../components/clients/DeleteClientBtn";
 import { useForm } from "react-hook-form";
 import { useClientStore, useUiStore } from "../../../hooks";
-import DeleteClientBtn from "../../../components/clients/DeleteClientBtn";
-import { DialogMessage } from "../../../components/common/DialogMessage";
+import { COLORS, cedulaMask, phoneMask } from "../../../constants";
 
 export default function ClientDetail() {
 
     const router = useRouter();
     const { activeClient, setNewClient, updateClient, deleteClient } = useClientStore();
-    const { isLoading, blockItem, switchDialog } = useUiStore();
+    const { isLoading, blockItem, setShowDialogTrue, setShowDialogFalse } = useUiStore();
 
     const { control, handleSubmit } = useForm({
         defaultValues: activeClient
@@ -30,8 +28,10 @@ export default function ClientDetail() {
     };
 
     const onDeleteClient = async () => {
-        switchDialog();
+        setShowDialogTrue();
         await deleteClient(activeClient.id);
+        setShowDialogFalse();
+
         router.back();
     };
 
@@ -40,10 +40,7 @@ export default function ClientDetail() {
             <Stack.Screen
                 options={{
                     headerTitle: "Clientes",
-                    headerTitleAlign: "center",
-                    headerStyle: { backgroundColor: COLORS.red },
-                    headerTintColor: COLORS.white,
-                    headerRight: () => ( (!!activeClient?.id && blockItem) && <DeleteClientBtn/>)
+                    headerRight: () => ((!!activeClient?.id && blockItem) && <DeleteClientBtn/>)
                 }}
             />
 
@@ -53,7 +50,7 @@ export default function ClientDetail() {
                 control={control}
                 name="nombre"
                 label="Nombre"
-                required="El nombre es requerido"
+                required="El Nombre es requerido"
                 isLoading={isLoading}
                 blocked={blockItem}
             />
@@ -61,18 +58,18 @@ export default function ClientDetail() {
                 control={control}
                 name="direccion"
                 label="Direccion"
-                required="La direccion es requerido"
+                required="La Direccion es requerido"
                 isLoading={isLoading}
                 blocked={blockItem}
             />
             <MaskedInput
                 control={control}
                 name="cedula"
-                label="Cedula"
-                required="La cedula es requerido"
+                label="Cédula"
+                required="La Cédula es requerido"
                 minLenght={{
                     value: 13,
-                    message: "La cedula debe tener 11 digitos",
+                    message: "La Cédula debe tener 11 digitos",
                 }}
                 placeholder={"000-0000000-0"}
                 mask={cedulaMask}
@@ -82,11 +79,11 @@ export default function ClientDetail() {
             <MaskedInput
                 control={control}
                 name="telefono"
-                label="Numero Telefonico"
-                required="El telefono es requerido"
+                label="Teléfono"
+                required="El Teléfono es requerido"
                 minLenght={{
-                    value: 11,
-                    message: "El numero telefonico debe tener 10 digitos",
+                    value: 14,
+                    message: "El Teléfono debe tener 10 digitos",
                 }}
                 placeholder={"(000)-000-0000"}
                 mask={phoneMask}
@@ -98,13 +95,12 @@ export default function ClientDetail() {
                 icon="account-plus"
                 mode="contained"
                 onPress={handleSubmit(handleSaving)}
-                buttonColor={COLORS.lightRed}
+                buttonColor={COLORS.primary}
                 loading={isLoading}
                 disabled={isLoading || blockItem}
             >
                 Crear cliente
             </Button>
-            
             {
                 !!activeClient?.id && <DialogMessage title="Eliminar" message="¿Esta seguro que desea eliminar este cliente?" handleAccept={onDeleteClient}/>
             }

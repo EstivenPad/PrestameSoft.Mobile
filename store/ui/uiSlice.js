@@ -5,7 +5,7 @@ export const uiSlice = createSlice({
     initialState: {
         isLoading: false,
         blockItem: false,
-        showDialog: false
+        showDialog: false,
     },
     reducers: {
         onSetLoadingTrue: (state) => {
@@ -14,15 +14,18 @@ export const uiSlice = createSlice({
         onSetLoadingFalse: (state) => {
             state.isLoading = false;
         },
-        onSwitchDialog: (state) => {
-            state.showDialog = !state.showDialog;
-        },
         onSetBlockItemTrue: (state) => {
             state.blockItem = true;
         },
         onSetBlockItemFalse: (state) => {
             state.blockItem = false;
         },
+        onSetShowDialogTrue: (state) => {
+            state.showDialog = true;
+        },
+        onSetShowDialogFalse: (state) => {
+            state.showDialog = false;
+        }
     }
 });
 
@@ -30,7 +33,8 @@ export const uiSlice = createSlice({
 export const { 
     onSetLoadingTrue,
     onSetLoadingFalse,
-    onSwitchDialog,
+    onSetShowDialogTrue,
+    onSetShowDialogFalse,
     onSetBlockItemTrue,
     onSetBlockItemFalse
 } = uiSlice.actions;

@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { COLORS } from '../../constants'
 import { Controller } from 'react-hook-form';
 import MaskInput from 'react-native-mask-input';
+import { COLORS } from '../../constants'
 
-export function MaskedInput({
+export const MaskedInput = ({
     control,
     name,
     label,
@@ -14,7 +14,7 @@ export function MaskedInput({
     mask,
     isLoading,
     blocked
-}) {
+}) => {
     return (
         <Controller
             control={control}
@@ -39,13 +39,13 @@ export function MaskedInput({
                             />
                         }
                     />
-                    {error && (<Text style={{alignSelf: 'stretch', color: error && COLORS.lightRed}}>{error.message}</Text>)}
+                    {error && (<Text style={{alignSelf: 'stretch', color: error && COLORS.danger}}>{error.message}</Text>)}
                 </View>
             )}
         />
         
     )
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
         fontSize: 20,
         alignSelf: 'center'
     }
-})
+});

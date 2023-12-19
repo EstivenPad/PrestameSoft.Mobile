@@ -3,14 +3,14 @@ import { TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
 import { COLORS } from '../../constants';
 
-export function CustomInput({
+export const CustomInput = ({
     control,
     name,
     label,
     required,
     isLoading,
     blocked
-}) {
+}) => {
     return (
         <Controller
             control={control}
@@ -27,16 +27,16 @@ export function CustomInput({
                         activeOutlineColor={COLORS.darkGray}
                         disabled={isLoading || blocked}
                     />
-                    {error && (<Text style={{alignSelf: 'stretch', color: error && COLORS.lightRed}}>{error.message}</Text>)}
+                    {error && (<Text style={{alignSelf: 'stretch', color: error && COLORS.danger}}>{error.message}</Text>)}
                 </View>
             )}
         />
     )
-}
+};
 
 
 const styles = StyleSheet.create({
     container: {
         marginBottom: 15
     }
-})
+});

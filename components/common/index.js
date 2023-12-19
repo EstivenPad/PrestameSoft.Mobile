@@ -1,5 +1,5 @@
-import {MaskedInput} from './MaskedInput';
 import { CustomInput } from './CustomInput';
+import { DialogMessage } from './DialogMessage';
+import {MaskedInput} from './MaskedInput';
 
-
-export { MaskedInput, CustomInput };
+export { CustomInput, DialogMessage, MaskedInput };

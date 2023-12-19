@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
 import { FirebaseDB } from "../server/firebaseConfig";
-import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, getDocs, orderBy, query, setDoc, updateDoc } from "firebase/firestore/lite";
 import { 
     onAddNewClient,
-    onSetClients,
+    onGetClients,
     onSetActiveClient,
     onSetLoadingFalse,
     onSetLoadingTrue,
     onDeleteClientById,
-    onSwitchDialog,
+    onSetShowDialogFalse,
     onUpdateClientById
 } from "../store";
 
@@ -20,29 +20,19 @@ export const useClientStore = () => {
         activeClient,
     } = useSelector(state => state.client);
 
-    const setNewClient = async (client) => {
+    const getClients = async () => {
         dispatch(onSetLoadingTrue());
 
         try {
-            const clientRef = doc(collection(FirebaseDB, 'Clientes'));
-            await setDoc(clientRef, client);
-            dispatch(onAddNewClient({ id: clientRef.id, ...client }));
-        } catch (error) {
-            throw new Error(error);
-        } finally {
-            dispatch(onSetLoadingFalse());
-        }
-
-    };
-
-    const setClients = async () => {
-        dispatch(onSetLoadingTrue());
-        try {
-            const clientsRef = await getDocs(collection(FirebaseDB, 'Clientes'));
+            //Sorted clients by name from firebase
+            const clientSorted = query(collection(FirebaseDB, 'Clientes'), orderBy("nombre"));
+            const clientsRef = await getDocs(clientSorted);
             
             const clients = [];
+
             clientsRef.forEach((doc) => {
                 const { nombre, direccion, cedula, telefono } = doc.data();
+
                 clients.push({
                     id: doc.id,
                     nombre,
@@ -52,17 +42,32 @@ export const useClientStore = () => {
                 });
             });
 
-            dispatch(onSetClients(clients));
+            dispatch(onGetClients(clients));
         } catch (error) {
             throw new Error(error);
         } finally {            
             dispatch(onSetLoadingFalse());
         }
-
     };
 
     const setActiveClient = (client = null) => {
         dispatch(onSetActiveClient(client));
+    };
+
+    const setNewClient = async (client) => {
+        dispatch(onSetLoadingTrue());
+
+        try {
+            const clientRef = doc(collection(FirebaseDB, 'Clientes'));
+            await setDoc(clientRef, client);
+
+            dispatch(onAddNewClient({ id: clientRef.id, ...client }));
+        } catch (error) {
+            throw new Error(error);
+        } finally {
+            dispatch(onSetLoadingFalse());
+        }
+
     };
 
     const updateClient = async (client = null) => {
@@ -74,6 +79,7 @@ export const useClientStore = () => {
 
             const clientRef = doc(FirebaseDB, 'Clientes', activeClient.id);            
             await updateDoc(clientRef, clientToFirestore);
+
             dispatch(onUpdateClientById(client));
         } catch (error) {
             throw new Error(error);
@@ -84,6 +90,7 @@ export const useClientStore = () => {
 
     const deleteClient = async (clientId) => {
         dispatch(onSetLoadingTrue());
+        
         try {    
             await deleteDoc(doc(FirebaseDB, `Clientes/${clientId}`));
              
@@ -92,7 +99,7 @@ export const useClientStore = () => {
             throw new Error(error);
         } finally {
             dispatch(onSetLoadingFalse());
-            dispatch(onSwitchDialog());
+            dispatch(onSetShowDialogFalse());
         }
     };
 
@@ -103,9 +110,9 @@ export const useClientStore = () => {
 
         //Methods
         setNewClient,
-        setClients,
+        getClients,
         setActiveClient,
         updateClient,
-        deleteClient
+        deleteClient,
     };
 }
