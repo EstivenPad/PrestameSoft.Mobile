@@ -1,11 +1,11 @@
-import { SafeAreaView, StyleSheet, Text } from "react-native";
-import { Button } from "react-native-paper";
-import { Stack, useRouter } from "expo-router";
+import { Image, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Button, Icon } from "react-native-paper";
+import { Link, Stack, useRouter } from "expo-router";
 import { CustomInput, MaskedInput, DialogMessage } from "../../../components/common";
 import { DeleteClientBtn } from "../../../components/clients/DeleteClientBtn";
 import { useForm } from "react-hook-form";
 import { useClientStore, useUiStore } from "../../../hooks";
-import { COLORS, cedulaMask, phoneMask } from "../../../constants";
+import { COLORS, cedulaMask, icons, phoneMask } from "../../../constants";
 
 export default function ClientDetail() {
 
@@ -44,7 +44,20 @@ export default function ClientDetail() {
                 }}
             />
 
-            <Text style={styles.label}>Crear nuevo cliente</Text>
+            <Image source={icons.avatar} style={styles.profile_icon} />
+
+            <Link href="/(tabs)/clients/loan-list" push asChild>
+                <Pressable 
+                    style={styles.btn_container}
+                >
+                    <Icon source="piggy-bank-outline" size={30} color={COLORS.white}/>
+                    <Text 
+                        style={styles.btn_label}
+                    >
+                        Prestamos
+                    </Text>
+                </Pressable>
+            </Link>
 
             <CustomInput
                 control={control}
@@ -109,11 +122,26 @@ export default function ClientDetail() {
 }
 
 const styles = StyleSheet.create({
-    input: {
-        marginBottom: 15,
+    btn_container: {
+        display: 'flex', 
+        flexDirection: 'row', 
+        alignSelf: 'center', 
+        alignItems: 'center',
+        backgroundColor: COLORS.primary, 
+        borderRadius: 30, 
+        padding: 10,
+        marginBottom: 15
     },
-    label: {
-        fontSize: 20,
-        alignSelf: "center",
+    btn_label: {
+        fontSize: 18, 
+        marginLeft: 5, 
+        color: COLORS.white,
     },
+    profile_icon: {
+        width: 90,
+        height: 90,
+        alignSelf: 'center',
+        marginBottom: 5,
+        tintColor: COLORS.darkGray
+    }
 });

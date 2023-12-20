@@ -4,7 +4,7 @@ import { Stack } from "expo-router";
 import { ClientCard, AddClientBtn } from "../../../components/clients";
 import { useClientStore, useUiStore } from "../../../hooks";
 
-export default function ClientPage() {
+export default function ClientScreen() {
     
     const { clients, getClients } = useClientStore();
     const { isLoading } = useUiStore();
@@ -14,7 +14,7 @@ export default function ClientPage() {
     }, []);
 
     return (
-        <SafeAreaView style={{padding: 10}}>
+        <SafeAreaView style={{ padding: 10 }}>
             <Stack.Screen
                 options={{
                     headerTitle: 'Clientes',

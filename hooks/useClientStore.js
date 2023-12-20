@@ -22,7 +22,7 @@ export const useClientStore = () => {
 
     const getClients = async () => {
         dispatch(onSetLoadingTrue());
-
+        
         try {
             //Sorted clients by name from firebase
             const clientSorted = query(collection(FirebaseDB, 'Clientes'), orderBy("nombre"));
@@ -32,7 +32,7 @@ export const useClientStore = () => {
 
             clientsRef.forEach((doc) => {
                 const { nombre, direccion, cedula, telefono } = doc.data();
-
+                
                 clients.push({
                     id: doc.id,
                     nombre,

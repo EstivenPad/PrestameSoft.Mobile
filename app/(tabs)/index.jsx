@@ -1,11 +1,9 @@
 import { Text, SafeAreaView} from "react-native";
 
-const HomeScreen = () => {
+export default function HomeScreen() {
   return (
-    <SafeAreaView>
-      <Text>Home Page</Text>
+    <SafeAreaView style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30}}>Home Page</Text>
     </SafeAreaView>
   )
-}
-
-export default HomeScreen;
+};

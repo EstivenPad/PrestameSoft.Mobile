@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { 
     onSetShowDialogTrue,
     onSetShowDialogFalse,
-    onSetSavingFalse,
-    onSetSavingTrue,
+    onSetLoadingTrue,
+    onSetLoadingFalse,
     onSetBlockItemTrue,
     onSetBlockItemFalse
 } from "../store";
@@ -13,12 +13,12 @@ export const useUiStore = () => {
     
     const { isLoading, showDialog, blockItem } = useSelector(state => state.ui);
 
-    const setSavingTrue = () => {
-        dispatch(onSetSavingTrue());
+    const setLoadingTrue = () => {
+        dispatch(onSetLoadingTrue());
     };
     
-    const setSavingFalse = () => {
-        dispatch(onSetSavingFalse());
+    const setLoadingFalse = () => {
+        dispatch(onSetLoadingFalse());
     };
 
     const setBlockItemTrue = () => {
@@ -44,10 +44,12 @@ export const useUiStore = () => {
         showDialog,
         
         //Methods
-        setSavingTrue,
-        setSavingFalse,
+        setLoadingTrue,
+        setLoadingFalse,
+
         setBlockItemTrue,
         setBlockItemFalse,
+        
         setShowDialogTrue,
         setShowDialogFalse,
     };

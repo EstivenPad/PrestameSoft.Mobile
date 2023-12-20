@@ -27,15 +27,6 @@ const TabLayout = () => {
                 ),
             }}
         />
-        <Tabs.Screen 
-            name="loans"
-            options={{
-                tabBarLabel: 'Prestamos',
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="wallet" color={color} size={size} />
-                ),
-            }}
-        />
     </Tabs>
   )
 }

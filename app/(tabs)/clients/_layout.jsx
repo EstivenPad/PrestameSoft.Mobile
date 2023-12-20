@@ -12,6 +12,7 @@ const ClientRoot = () => {
                 headerTitleAlign: "center",
             }}
         />
+
     )
 }
 

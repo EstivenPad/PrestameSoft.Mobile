@@ -28,8 +28,8 @@ export const ClientCard = ({ client }) => {
     const onShowClient = () => {
         setActiveClient(client);
         
-        setShowDialogFalse(); //Hide the delete dialog just in case
         setBlockItemTrue(); //Active the inputs and buttons to type in them
+        setShowDialogFalse(); //Hide the delete dialog just in case
         closeMenu(); //Close de floating menu
 
         router.push('/(tabs)/clients/client-detail');
@@ -38,8 +38,8 @@ export const ClientCard = ({ client }) => {
     const onEditClient = () => {
         setActiveClient(client);
         
-        setShowDialogFalse(); //Hide the delete dialog just in case
         setBlockItemFalse(); //Disable the inputs and buttons to type in them
+        setShowDialogFalse(); //Hide the delete dialog just in case
         closeMenu(); //Close de floating menu
         
         router.push('/(tabs)/clients/client-detail');

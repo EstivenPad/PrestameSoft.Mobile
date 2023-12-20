@@ -1,7 +1,5 @@
-import avatar from "../assets/avatar.png";
-import avatar2 from "../assets/avatar2.png";
+import avatar from "../assets/profile-user.png";
 
 export default {
-    avatar,
-    avatar2
+    avatar
 };
