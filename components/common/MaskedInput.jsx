@@ -39,7 +39,7 @@ export const MaskedInput = ({
                             />
                         }
                     />
-                    {error && (<Text style={{alignSelf: 'stretch', color: error && COLORS.danger}}>{error.message}</Text>)}
+                    {error && (<Text style={{alignSelf: 'stretch', color: COLORS.danger}}>{error.message}</Text>)}
                 </View>
             )}
         />

@@ -67,7 +67,6 @@ export const useClientStore = () => {
         } finally {
             dispatch(onSetLoadingFalse());
         }
-
     };
 
     const updateClient = async (client = null) => {

@@ -7,6 +7,7 @@ export const CustomInput = ({
     control,
     name,
     label,
+    inputMode = 'text',
     required,
     isLoading,
     blocked
@@ -15,19 +16,20 @@ export const CustomInput = ({
         <Controller
             control={control}
             name={name}
-            rules={{ required: required }}
+            rules={!!required && { required: required }}
             render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
                 <View style={styles.container}>
                     <TextInput
                         label={label}
                         value={value}
+                        inputMode={inputMode}
                         onChangeText={onChange}
                         onBlur={onBlur}
                         mode='outlined'
                         activeOutlineColor={COLORS.darkGray}
                         disabled={isLoading || blocked}
                     />
-                    {error && (<Text style={{alignSelf: 'stretch', color: error && COLORS.danger}}>{error.message}</Text>)}
+                    {error && (<Text style={{alignSelf: 'stretch', color: COLORS.danger}}>{error.message}</Text>)}
                 </View>
             )}
         />

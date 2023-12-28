@@ -23,7 +23,7 @@ const TabLayout = () => {
             options={{
                 tabBarLabel: 'Clientes',
                 tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="people" color={color} size={size} />
+                    <Ionicons name="people-circle-outline" color={color} size={size} />
                 ),
             }}
         />

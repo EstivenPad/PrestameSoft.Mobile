@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-export const LoanCard = () => {
+export const LoanCard = ({ loan }) => {
     return (
         <TouchableOpacity style={styles.container}>
             <View>
-                <Text style={styles.label}>$12,000.00</Text>
-                <Text style={{fontSize: 20, color: '#fff'}}>24/12/2023</Text>
+                <Text style={styles.label}>{loan.cantidadPrestada}</Text>
+                <Text style={{fontSize: 20, color: '#fff'}}>01/01/2024</Text>
             </View>
         </TouchableOpacity>
     )

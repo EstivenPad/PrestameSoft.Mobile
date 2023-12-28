@@ -14,6 +14,6 @@ const ClientRoot = () => {
         />
 
     )
-}
+};
 
 export default ClientRoot;

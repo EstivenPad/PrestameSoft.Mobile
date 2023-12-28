@@ -37,7 +37,7 @@ export const clientSlice = createSlice({
                 return client;
             });
         },
-        onDeleteClientById: (state, {payload}) => {
+        onDeleteClientById: (state, { payload }) => {
             state.activeClient = null;
             state.clients = state.clients.filter((client) => client.id !== payload);
         }

@@ -1,4 +1,4 @@
-import { Image, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Button, Icon } from "react-native-paper";
 import { Link, Stack, useRouter } from "expo-router";
 import { CustomInput, MaskedInput, DialogMessage } from "../../../components/common";
@@ -47,16 +47,12 @@ export default function ClientDetail() {
             <Image source={icons.avatar} style={styles.profile_icon} />
 
             <Link href="/(tabs)/clients/loan-list" push asChild>
-                <Pressable 
-                    style={styles.btn_container}
-                >
+                <TouchableOpacity style={styles.btn_container}>
                     <Icon source="piggy-bank-outline" size={30} color={COLORS.white}/>
-                    <Text 
-                        style={styles.btn_label}
-                    >
+                    <Text style={styles.btn_label}>
                         Prestamos
                     </Text>
-                </Pressable>
+                </TouchableOpacity>
             </Link>
 
             <CustomInput
@@ -71,7 +67,7 @@ export default function ClientDetail() {
                 control={control}
                 name="direccion"
                 label="Direccion"
-                required="La Direccion es requerido"
+                required="La Direccion es requerida"
                 isLoading={isLoading}
                 blocked={blockItem}
             />
@@ -79,12 +75,12 @@ export default function ClientDetail() {
                 control={control}
                 name="cedula"
                 label="Cédula"
-                required="La Cédula es requerido"
+                required="La Cédula es requerida"
                 minLenght={{
                     value: 13,
                     message: "La Cédula debe tener 11 digitos",
                 }}
-                placeholder={"000-0000000-0"}
+                placeholder="000-0000000-0"
                 mask={cedulaMask}
                 isLoading={isLoading}
                 blocked={blockItem}
@@ -98,7 +94,7 @@ export default function ClientDetail() {
                     value: 14,
                     message: "El Teléfono debe tener 10 digitos",
                 }}
-                placeholder={"(000)-000-0000"}
+                placeholder="(000)-000-0000"
                 mask={phoneMask}
                 isLoading={isLoading}
                 blocked={blockItem}

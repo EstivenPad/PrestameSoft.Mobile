@@ -28,7 +28,7 @@ export const ClientCard = ({ client }) => {
     const onShowClient = () => {
         setActiveClient(client);
         
-        setBlockItemTrue(); //Active the inputs and buttons to type in them
+        setBlockItemTrue(); //Disable the inputs and buttons to type in them
         setShowDialogFalse(); //Hide the delete dialog just in case
         closeMenu(); //Close de floating menu
 
@@ -38,7 +38,7 @@ export const ClientCard = ({ client }) => {
     const onEditClient = () => {
         setActiveClient(client);
         
-        setBlockItemFalse(); //Disable the inputs and buttons to type in them
+        setBlockItemFalse(); //Enable the inputs and buttons to type in them
         setShowDialogFalse(); //Hide the delete dialog just in case
         closeMenu(); //Close de floating menu
         
@@ -46,7 +46,7 @@ export const ClientCard = ({ client }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity onPress={onShowClient} style={styles.container}>
             <Text style={styles.label}>{client.nombre}</Text>
             <TouchableOpacity onPress={onDisplayMenu} style={styles.iconBtn}>
                 <Icon source="dots-vertical" size={25} color="#999" />
@@ -59,29 +59,29 @@ export const ClientCard = ({ client }) => {
                 <Menu.Item onPress={onShowClient} title="Ver" />
                 <Menu.Item onPress={onEditClient} title="Editar" />
             </Menu>
-        </View>
+        </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#fff",
-        height: 50,
-        borderColor: "#555",
+        backgroundColor: '#fff',
         borderWidth: 1,
+        height: 50,
         marginBottom: 10,
-        display: "flex",
-        flexDirection: "row",
+        display: 'flex',
+        flexDirection: 'row',
         padding: 10,
-        alignItems: "center",
-        justifyContent: "space-between",
+        alignItems: 'center',
+        justifyContent: 'space-between',
         borderRadius: 8,
     },
     label: {
         fontSize: 20,
+        // color: '#fff',
     },
     iconBtn: {
-        position: "absolute",
+        position: 'absolute',
         right: 5
     }
 });

@@ -1,9 +1,88 @@
-import { View, Text } from "react-native";
+import { Stack, useRouter } from "expo-router";
+import { SafeAreaView } from "react-native";
+import { useForm } from "react-hook-form";
+import { useLoanStore, useUiStore } from "../../../hooks";
+import { CustomInput, DateInput, MoneyInput, SwitchInput } from "../../../components/common";
+import { COLORS } from "../../../constants";
+import { Button } from "react-native-paper";
 
 export default function LoanDetail() {
+    
+    const router = useRouter();
+    const { isLoading, blockItem } = useUiStore();
+    const { activeLoan, setNewLoan } = useLoanStore();        
+    const { control, handleSubmit } = useForm({
+        defaultValues: activeLoan
+    });
+
+    const handleSaving = async (data) => {
+        await setNewLoan(data);
+        // console.log(data)
+        // router.back();
+    }
+
     return (
-        <View>
-            <Text>LoanDetail</Text>
-        </View>
+        <SafeAreaView style={{ flex: 1, padding: 10 }}>
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Crear nuevo prestamo'
+                }}
+            />
+
+            <DateInput
+                control={control}
+                name="fechaPrestamo"
+                label="Fecha del prestamo"
+                isLoading={isLoading}
+                blocked={blockItem}
+            />
+
+            <MoneyInput
+                control={control}
+                name="cantidadPrestada"
+                label="Cantidad Prestada"
+                required="La Cantidad Prestada es requerida"
+                placeholder="RD$ 0"
+                isLoading={isLoading}
+                blocked={blockItem}
+            />
+
+            <CustomInput
+                control={control}
+                name="descripcionGarantia"
+                label="Descripción de Garantia"
+                isLoading={isLoading}
+                blocked={blockItem}
+            />
+
+            <CustomInput
+                control={control}
+                name="cantidadQuincenas"
+                label="Cantidad de Quincenas"
+                inputMode="numeric"
+                required="La Cantidad de Quincenas es requerida"
+                isLoading={isLoading}
+                blocked={blockItem}
+            />
+
+            <SwitchInput
+                control={control}
+                name="quincenaInicio"
+                label="Quincena de Inicio de Pago"
+                isLoading={isLoading}
+                blocked={blockItem}
+            />
+            
+            <Button
+                icon="wallet-plus"
+                mode="contained"
+                onPress={handleSubmit(handleSaving)}
+                buttonColor={COLORS.primary}
+                loading={isLoading}
+                disabled={isLoading || blockItem}
+            >
+                Crear Prestamo
+            </Button>
+        </SafeAreaView>
     )
 };
