@@ -46,15 +46,19 @@ export default function ClientDetail() {
 
             <Image source={icons.avatar} style={styles.profile_icon} />
 
-            <Link href="/(tabs)/clients/loan-list" push asChild>
-                <TouchableOpacity style={styles.btn_container}>
-                    <Icon source="piggy-bank-outline" size={30} color={COLORS.white}/>
-                    <Text style={styles.btn_label}>
-                        Prestamos
-                    </Text>
-                </TouchableOpacity>
-            </Link>
-
+            {
+                activeClient?.id 
+                    && 
+                <Link href="/(tabs)/clients/loan-list" push asChild>
+                    <TouchableOpacity style={styles.btn_container}>
+                        <Icon source="piggy-bank-outline" size={30} color={COLORS.white}/>
+                        <Text style={styles.btn_label}>
+                            Prestamos
+                        </Text>
+                    </TouchableOpacity>
+                </Link>
+            }
+            
             <CustomInput
                 control={control}
                 name="nombre"

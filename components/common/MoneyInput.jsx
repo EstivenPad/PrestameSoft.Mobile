@@ -23,7 +23,7 @@ export const MoneyInput = ({
                     <CurrencyInput
                         value={value}
                         onChangeValue={onChange}
-                        prefix="RD$ "
+                        prefix="DOP$ "
                         delimiter=","
                         separator="."
                         precision={0}

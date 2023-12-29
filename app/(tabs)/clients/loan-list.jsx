@@ -20,7 +20,7 @@ export default function LoanList () {
                 options={{
                     headerTitle: 'Prestamos',
                     headerRight: () => (
-                        <AddLoanBtn/>
+                        <AddLoanBtn client={activeClient}/>
                     )
                 }}
             />
@@ -33,7 +33,7 @@ export default function LoanList () {
             <FlatList
                 data={ loans }
                 renderItem={({ item }) => (
-                    <LoanCard loan={ item }/>
+                    <LoanCard loan={ item } client={activeClient}/>
                 )}
                 keyExtractor={ item => item.id }
                 refreshing={isLoading}

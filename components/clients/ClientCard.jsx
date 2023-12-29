@@ -1,30 +1,15 @@
-import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Icon, Menu } from "react-native-paper";
-import { useClientStore, useUiStore } from "../../hooks";
+import { useClientStore, useMenu, useUiStore } from "../../hooks";
 
 export const ClientCard = ({ client }) => {    
 
     const router = useRouter();
-
-    const { setBlockItemTrue, setBlockItemFalse, setShowDialogFalse } = useUiStore();
     const { setActiveClient } = useClientStore();
-
-    const [showMenu, setShowMenu] = useState(false);
-    const [menuAnchor, setMenuAnchor] = useState({ x:0, y:0 });
-    const openMenu = () => setShowMenu(true);
-    const closeMenu = () => setShowMenu(false);
+    const { setBlockItemTrue, setBlockItemFalse, setShowDialogFalse } = useUiStore();
+    const { showMenu, menuAnchor, closeMenu, onDisplayMenu } = useMenu();
     
-    const onDisplayMenu = ({ nativeEvent }) => {
-        const anchor = {
-            x: nativeEvent.pageX,
-            y: nativeEvent.pageY,
-        }
-        setMenuAnchor(anchor);
-        openMenu();
-    }
-
     const onShowClient = () => {
         setActiveClient(client);
         
@@ -33,7 +18,7 @@ export const ClientCard = ({ client }) => {
         closeMenu(); //Close de floating menu
 
         router.push('/(tabs)/clients/client-detail');
-    }
+    };
 
     const onEditClient = () => {
         setActiveClient(client);
@@ -43,7 +28,7 @@ export const ClientCard = ({ client }) => {
         closeMenu(); //Close de floating menu
         
         router.push('/(tabs)/clients/client-detail');
-    }
+    };
 
     return (
         <TouchableOpacity onPress={onShowClient} style={styles.container}>
@@ -77,8 +62,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     label: {
-        fontSize: 20,
-        // color: '#fff',
+        fontSize: 20
     },
     iconBtn: {
         position: 'absolute',

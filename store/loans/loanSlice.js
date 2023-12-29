@@ -3,19 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const loanSlice = createSlice({
     name: 'loan',
     initialState: {
-        loans: [
-            {
-                id: '',
-                cantidadPrestada: '',
-                fechaPrestamo: new Date(),
-                descripcionGarantia: '',
-                cantidadQuincenas: '',
-                quincenaInicio: false
-            }
-        ],
+        loans: [],
         activeLoan: null
         //{
             // id: '',
+            //client: '000-0000000-0',
             // cantidadPrestada: '',
             // fechaPrestamo: new Date(),
             // descripcionGarantia: '',
@@ -32,12 +24,9 @@ export const loanSlice = createSlice({
         },
         onSetActiveLoan: (state, { payload }) => {
             state.activeLoan = payload;
-        },
-        onSetLoanDate: (state, { payload }) => {
-            state.activeLoan = { ...state.activeLoan, fechaPrestamo: payload };
-        },
+        }
     }
 });
 
 
-export const { onGetLoans, onAddNewLoan, onSetActiveLoan, onSetLoanDate } = loanSlice.actions;
+export const { onGetLoans, onAddNewLoan, onSetActiveLoan } = loanSlice.actions;

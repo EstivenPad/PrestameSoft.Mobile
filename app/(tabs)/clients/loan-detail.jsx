@@ -11,14 +11,14 @@ export default function LoanDetail() {
     const router = useRouter();
     const { isLoading, blockItem } = useUiStore();
     const { activeLoan, setNewLoan } = useLoanStore();        
-    const { control, handleSubmit } = useForm({
+    const { control, handleSubmit, setValue, watch } = useForm({
         defaultValues: activeLoan
     });
 
     const handleSaving = async (data) => {
         await setNewLoan(data);
-        // console.log(data)
-        // router.back();
+        
+        router.back();
     }
 
     return (
@@ -31,6 +31,8 @@ export default function LoanDetail() {
 
             <DateInput
                 control={control}
+                watch={watch}
+                setValue={setValue}
                 name="fechaPrestamo"
                 label="Fecha del prestamo"
                 isLoading={isLoading}
@@ -42,7 +44,7 @@ export default function LoanDetail() {
                 name="cantidadPrestada"
                 label="Cantidad Prestada"
                 required="La Cantidad Prestada es requerida"
-                placeholder="RD$ 0"
+                placeholder="DOP$ 0"
                 isLoading={isLoading}
                 blocked={blockItem}
             />

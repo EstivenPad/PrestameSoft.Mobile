@@ -6,8 +6,7 @@ import {
     onGetLoans,
     onSetActiveLoan,
     onSetLoadingFalse,
-    onSetLoadingTrue,
-    onSetLoanDate
+    onSetLoadingTrue
 } from "../store";
 
 export const useLoanStore = () => {
@@ -19,33 +18,28 @@ export const useLoanStore = () => {
         dispatch(onSetLoadingTrue());
         
         try {
+            const loansToDispatch = [];
             const loansRef = await getDocs(collection(FirebaseDB, 'Prestamos'));
             
-            const loans = [];
-
             loansRef.forEach((doc) => {
                 const { cantidadPrestada, fechaPrestamo, descripcionGarantia, cantidadQuincenas, quincenaInicio } = doc.data();
                 
-                loans.push({
+                loansToDispatch.push({
                     id: doc.id,
                     cantidadPrestada,
-                    fechaPrestamo,
+                    fechaPrestamo: fechaPrestamo.toDate(),
                     descripcionGarantia,
                     cantidadQuincenas,
                     quincenaInicio
                 });
             });
 
-            dispatch(onGetLoans(loans));
+            dispatch(onGetLoans(loansToDispatch));
         } catch (error) {
             throw new Error(error);
         } finally {            
             dispatch(onSetLoadingFalse());
         }
-    };
-
-    const setLoanDate = (newDate) => {
-        dispatch(onSetLoanDate(newDate));
     };
 
     const setActiveLoan = (loan = null) => {
@@ -57,7 +51,7 @@ export const useLoanStore = () => {
 
         try {
             const loanRef = doc(collection(FirebaseDB, 'Prestamos'));
-            await setDoc(loanRef, loan);
+            await setDoc(loanRef, {...loan});
 
             dispatch(onAddNewLoan({ id: loanRef.id, ...loan }));
         } catch (error) {
@@ -65,8 +59,7 @@ export const useLoanStore = () => {
         } finally {
             dispatch(onSetLoadingFalse());
         }
-    };
-    
+    };    
 
     return {
         //Properties
@@ -75,7 +68,6 @@ export const useLoanStore = () => {
 
         //Methods
         getLoans,
-        setLoanDate,
         setActiveLoan,
         setNewLoan,
     };

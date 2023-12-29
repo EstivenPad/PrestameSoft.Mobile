@@ -1,52 +1,48 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
-import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Controller } from "react-hook-form";
 import { COLORS } from "../../constants";
-import { useLoanStore } from "../../hooks/useLoanStore";
 
 export const DateInput = ({
     control,
+    watch,
+    setValue,
     name,
     label,
     required,
     isLoading,
     blocked
 }) => {  
-
-    const { setLoanDate } = useLoanStore();
-    
-    const [date, setDate] = useState(new Date());
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setDate(currentDate);
-        setLoanDate(selectedDate);
-    };
-
-    const showMode = (currentMode) => {
-        DateTimePickerAndroid.open({
-            value: date,
-            onChange,
-            mode: currentMode,
-            is24Hour: true,
-        });
-    };
-
-    const showDatepicker = () => { showMode('date') }; 
+    const selectedDate = watch(name);
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     return (
         <Controller
             control={control}
             name={name}
             rules={{ required: required }}
-            render={({fieldState: {error} }) => (
+            render={({field: {value, onChange, onBlur}}) => (
                 <View style={styles.container}>
                     <Text style={[styles.date_label, {fontWeight: "bold"}]}>{label}:</Text>
-                    <Text style={styles.date_label}>{date.toLocaleDateString("es-ES", { weekday: "long" })}</Text>
+                    <Text style={styles.date_label}>{selectedDate.toLocaleString("es-ES",{weekday: "long", hour12: true})}</Text>
                     
-                    <Button onPress={showDatepicker} title="Cambiar fecha" color={COLORS.primary} disabled={isLoading || blocked}/>
-                    {error && (<Text style={{alignSelf: 'stretch', color: COLORS.danger}}>{error.message}</Text>)}
+                    <Button onPress={() => setShowDatePicker(true)} title="Cambiar fecha" color={COLORS.primary} disabled={isLoading || blocked}/>
+
+                    {showDatePicker && (
+                        <DateTimePicker testID="dateTimePicker"
+                            value={value ? new Date(value) : new Date()}
+                            mode="date"
+                            is24Hour={false}
+                            onChange={(event, selectedDate) => {
+                                setShowDatePicker(Platform.OS === 'ios');
+                                if(selectedDate){
+                                    onChange(selectedDate);
+                                    setValue(name, selectedDate);
+                                }
+                            }}
+                        />
+                    )}
                 </View>
             )}
         />
