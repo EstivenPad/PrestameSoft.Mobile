@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { FirebaseDB } from "../server/firebaseConfig";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore/lite";
+import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore/lite";
 import { 
     onAddNewLoan,
     onGetLoans,
     onSetActiveLoan,
     onSetLoadingFalse,
-    onSetLoadingTrue
+    onSetLoadingTrue,
+    onUpdateLoanById
 } from "../store";
 
 export const useLoanStore = () => {
@@ -61,6 +62,24 @@ export const useLoanStore = () => {
         }
     };    
 
+    const updateLoan = async (loan) => {
+        dispatch(onSetLoadingTrue());
+        
+        try {
+            const loanToFirestore = {...loan};
+            delete loanToFirestore.id;
+
+            const loanRef = doc(FirebaseDB, 'Prestamos', activeLoan.id);            
+            await updateDoc(loanRef, loanToFirestore);
+
+            dispatch(onUpdateLoanById(loan));
+        } catch (error) {
+            throw new Error(error);
+        } finally {
+            dispatch(onSetLoadingFalse());
+        }
+    };
+
     return {
         //Properties
         loans,
@@ -70,5 +89,6 @@ export const useLoanStore = () => {
         getLoans,
         setActiveLoan,
         setNewLoan,
+        updateLoan
     };
 }

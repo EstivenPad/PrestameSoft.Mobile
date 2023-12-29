@@ -6,7 +6,6 @@ import { useLoanStore, useUiStore } from "../../hooks";
 export const AddLoanBtn = ({client}) => {
     
     const router = useRouter();
-    
     const { setActiveLoan } = useLoanStore();
     const { setBlockItemFalse, setShowDialogFalse } = useUiStore();
 

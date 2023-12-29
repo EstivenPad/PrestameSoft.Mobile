@@ -24,9 +24,22 @@ export const loanSlice = createSlice({
         },
         onSetActiveLoan: (state, { payload }) => {
             state.activeLoan = payload;
-        }
+        },
+        onUpdateLoanById: (state, { payload }) => {
+            state.loans = state.loans.map(loan => {
+                if(loan.id === payload.id)
+                    return payload;
+
+                return loan;
+            });
+        },
     }
 });
 
 
-export const { onGetLoans, onAddNewLoan, onSetActiveLoan } = loanSlice.actions;
+export const { 
+    onGetLoans,
+    onAddNewLoan,
+    onSetActiveLoan,
+    onUpdateLoanById
+} = loanSlice.actions;

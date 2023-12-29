@@ -10,14 +10,17 @@ export default function LoanDetail() {
     
     const router = useRouter();
     const { isLoading, blockItem } = useUiStore();
-    const { activeLoan, setNewLoan } = useLoanStore();        
+    const { activeLoan, setNewLoan, updateLoan } = useLoanStore();        
     const { control, handleSubmit, setValue, watch } = useForm({
         defaultValues: activeLoan
     });
 
     const handleSaving = async (data) => {
-        await setNewLoan(data);
-        
+        if(activeLoan?.id)
+            await updateLoan(data);
+        else
+            await setNewLoan(data);
+
         router.back();
     }
 

@@ -18,7 +18,17 @@ export const LoanCard = ({ loan, client }) => {
         closeMenu(); //Close de floating menu
 
         router.push('/(tabs)/clients/loan-detail');
-    }
+    };
+
+    const onEditLoan = () => {
+        setActiveLoan(loan);  
+
+        setBlockItemFalse(); //Disable the inputs and buttons to type in them
+        setShowDialogFalse(); //Hide the delete dialog just in case
+        closeMenu(); //Close de floating menu
+
+        router.push('/(tabs)/clients/loan-detail');
+    };
     
     return (
         <TouchableOpacity onPress={onShowLoan} style={styles.container}>
@@ -36,7 +46,7 @@ export const LoanCard = ({ loan, client }) => {
                 anchor={menuAnchor}
             >
                 <Menu.Item onPress={onShowLoan} title="Ver" />
-                <Menu.Item onPress={()=>{}} title="Editar" />
+                <Menu.Item onPress={onEditLoan} title="Editar" />
             </Menu>
         </TouchableOpacity>
     )
