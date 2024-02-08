@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native";
 import { Icon } from "react-native-paper";
 import { useLoanStore, useUiStore } from "../../hooks";
 
-export const AddLoanBtn = ({client}) => {
+export const AddLoanBtn = ({clientId}) => {
     
     const router = useRouter();
     const { setActiveLoan } = useLoanStore();
@@ -12,14 +12,12 @@ export const AddLoanBtn = ({client}) => {
     const onAddLoan = () => {
         setBlockItemFalse(); //Active the inputs and buttons to type in them
         setShowDialogFalse(); //Hide the delete dialog just in case
-
+        
         setActiveLoan({
-            cliente: client.cedula,
-            cantidadPrestada: '',
-            fechaPrestamo: new Date(),
-            descripcionGarantia: '',
-            cantidadQuincenas: '',
-            quincenaInicio: false
+            client_id: clientId,
+            amount: '',
+            capital_remaining: '',
+            loan_date: new Date()
         });
 
         router.push('/(tabs)/clients/loan-detail');

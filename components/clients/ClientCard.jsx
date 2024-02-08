@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Icon, Menu } from "react-native-paper";
 import { useClientStore, useMenu, useUiStore } from "../../hooks";
@@ -32,7 +32,7 @@ export const ClientCard = ({ client }) => {
 
     return (
         <TouchableOpacity onPress={onShowClient} style={styles.container}>
-            <Text style={styles.label}>{client.nombre}</Text>
+            <Text style={styles.label}>{client.name}</Text>
             <TouchableOpacity onPress={onDisplayMenu} style={styles.iconBtn}>
                 <Icon source="dots-vertical" size={25} color="#999" />
             </TouchableOpacity>

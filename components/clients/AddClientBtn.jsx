@@ -15,10 +15,10 @@ export const AddClientBtn = () => {
         setShowDialogFalse(); //Hide the delete dialog just in case
 
         setActiveClient({
-            nombre: '',
-            direccion: '',
-            cedula: '',
-            telefono: ''
+            name: '',
+            address: '',
+            identification: '',
+            phone: ''
         });
 
         router.push('/(tabs)/clients/client-detail');

@@ -25,7 +25,7 @@ export const DateInput = ({
             render={({field: {value, onChange, onBlur}}) => (
                 <View style={styles.container}>
                     <Text style={[styles.date_label, {fontWeight: "bold"}]}>{label}:</Text>
-                    <Text style={styles.date_label}>{selectedDate.toLocaleString("es-ES",{weekday: "long", hour12: true})}</Text>
+                    <Text style={styles.date_label}>{selectedDate.toLocaleString("es-ES",{weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric'})}</Text>
                     
                     <Button onPress={() => setShowDatePicker(true)} title="Cambiar fecha" color={COLORS.primary} disabled={isLoading || blocked}/>
 

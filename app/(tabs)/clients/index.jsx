@@ -14,7 +14,7 @@ export default function ClientScreen() {
     }, []);
 
     return (
-        <SafeAreaView style={{ padding: 10 }}>
+        <SafeAreaView style={{ flex: 1, padding: 10 }}>
             <Stack.Screen
                 options={{
                     headerTitle: 'Clientes',
@@ -24,7 +24,7 @@ export default function ClientScreen() {
                 }}
             />
 
-            <View>
+            <View style={{ flex: 1, padding: 10 }}>
                 { isLoading ? (
                     <ActivityIndicator size="large"/>
                 ) : (

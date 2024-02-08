@@ -27,6 +27,15 @@ const TabLayout = () => {
                 ),
             }}
         />
+        <Tabs.Screen 
+            name="payments"
+            options={{
+                tabBarLabel: 'Pagos',
+                tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="cash-outline" color={color} size={size} />
+                ),
+            }}
+        />
     </Tabs>
   )
 }

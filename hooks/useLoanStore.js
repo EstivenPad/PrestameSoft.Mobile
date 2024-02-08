@@ -1,83 +1,82 @@
 import { useDispatch, useSelector } from "react-redux";
-import { FirebaseDB } from "../server/firebaseConfig";
-import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore/lite";
+import { supabase } from "../server/supabaseClient";
 import { 
     onAddNewLoan,
+    onDeleteLoan,
     onGetLoans,
+    onUpdateLoan,
     onSetActiveLoan,
     onSetLoadingFalse,
     onSetLoadingTrue,
-    onUpdateLoanById
+    onSetShowDialogFalse
 } from "../store";
 
 export const useLoanStore = () => {
     const dispatch = useDispatch();
-    
     const { loans, activeLoan } = useSelector(state => state.loan);
     
-    const getLoans = async () => {
+    const getLoans = async (clientId) => {
         dispatch(onSetLoadingTrue());
         
-        try {
-            const loansToDispatch = [];
-            const loansRef = await getDocs(collection(FirebaseDB, 'Prestamos'));
-            
-            loansRef.forEach((doc) => {
-                const { cantidadPrestada, fechaPrestamo, descripcionGarantia, cantidadQuincenas, quincenaInicio } = doc.data();
-                
-                loansToDispatch.push({
-                    id: doc.id,
-                    cantidadPrestada,
-                    fechaPrestamo: fechaPrestamo.toDate(),
-                    descripcionGarantia,
-                    cantidadQuincenas,
-                    quincenaInicio
-                });
-            });
+        const loansToDispatch = [];
+        const { data: Loans, error } = await supabase.from('loans').select('*').eq('client_id', clientId);
+        
+        if(error) console.log(error);
 
-            dispatch(onGetLoans(loansToDispatch));
-        } catch (error) {
-            throw new Error(error);
-        } finally {            
-            dispatch(onSetLoadingFalse());
-        }
+        Loans.map(({ id, client_id, amount, capital_remaining, loan_date:supabaseDate }) => {
+            loansToDispatch.push({
+                id,
+                client_id,
+                amount,
+                capital_remaining,
+                loan_date: new Date(supabaseDate)
+            });
+        });
+        
+        dispatch(onGetLoans(loansToDispatch));
+        dispatch(onSetLoadingFalse());
     };
 
     const setActiveLoan = (loan = null) => {
         dispatch(onSetActiveLoan(loan));
     };
 
-    const setNewLoan = async (loan) => {
+    const createNewLoan = async (loan) => {
         dispatch(onSetLoadingTrue());
-
-        try {
-            const loanRef = doc(collection(FirebaseDB, 'Prestamos'));
-            await setDoc(loanRef, {...loan});
-
-            dispatch(onAddNewLoan({ id: loanRef.id, ...loan }));
-        } catch (error) {
-            throw new Error(error);
-        } finally {
-            dispatch(onSetLoadingFalse());
-        }
+        
+        const newLoan = {...loan, capital_remaining: loan.amount};
+        const { data:Loan, error } = await supabase.from('loans').insert(newLoan).select();
+        
+        if(error) console.log(error);
+        
+        //Converte the returned date into a Date object of JS 
+        dispatch(onAddNewLoan({ ...Loan[0], loan_date: new Date(Loan[0].loan_date) }));
+        dispatch(onSetLoadingFalse());
     };    
 
     const updateLoan = async (loan) => {
         dispatch(onSetLoadingTrue());
+
+        const loanToDB = {...loan, capital_remaining: loan.amount};
+        delete loanToDB.id;
+
+        const { data:Loan, error } = await supabase.from('loans').update(loanToDB).eq('id', activeLoan.id).select();
+        if(error) console.log(error);
+
+        dispatch(onUpdateLoan({ ...Loan[0], loan_date: new Date(Loan[0].loan_date) }));
+        dispatch(onSetLoadingFalse());
+    };
+
+    const deleteLoan = async (loanId) => {
+        dispatch(onSetLoadingTrue());
+           
+        const { error } = await supabase.from('loans').delete().eq('id', loanId)
         
-        try {
-            const loanToFirestore = {...loan};
-            delete loanToFirestore.id;
+        if(error) console.log(error);
 
-            const loanRef = doc(FirebaseDB, 'Prestamos', activeLoan.id);            
-            await updateDoc(loanRef, loanToFirestore);
-
-            dispatch(onUpdateLoanById(loan));
-        } catch (error) {
-            throw new Error(error);
-        } finally {
-            dispatch(onSetLoadingFalse());
-        }
+        dispatch(onDeleteLoan(loanId));
+        dispatch(onSetLoadingFalse());
+        dispatch(onSetShowDialogFalse());
     };
 
     return {
@@ -88,7 +87,8 @@ export const useLoanStore = () => {
         //Methods
         getLoans,
         setActiveLoan,
-        setNewLoan,
-        updateLoan
+        createNewLoan,
+        updateLoan,
+        deleteLoan
     };
 }

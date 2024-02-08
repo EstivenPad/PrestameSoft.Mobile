@@ -3,7 +3,7 @@ import { TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
 import { COLORS } from '../../constants';
 
-export const CustomInput = ({
+export const NumericInput = ({
     control,
     name,
     label,
@@ -21,7 +21,11 @@ export const CustomInput = ({
                     <TextInput
                         label={label}
                         value={value}
-                        onChangeText={onChange}
+                        inputMode='numeric'
+                        onChangeText={(text) => {
+                            const numericValue = text.replace(/[^0-9]/g,'');
+                            onChange(numericValue);
+                        }}
                         onBlur={onBlur}
                         mode='outlined'
                         activeOutlineColor={COLORS.darkGray}

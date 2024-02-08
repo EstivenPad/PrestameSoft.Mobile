@@ -46,11 +46,9 @@ export const useUiStore = () => {
         //Methods
         setLoadingTrue,
         setLoadingFalse,
-
         setBlockItemTrue,
         setBlockItemFalse,
-        
         setShowDialogTrue,
-        setShowDialogFalse,
+        setShowDialogFalse
     };
 }

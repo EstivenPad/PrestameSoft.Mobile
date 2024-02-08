@@ -17,9 +17,11 @@ export const useMenu = () => {
     };
 
     return {
+        //Properties
         showMenu,
         menuAnchor,
 
+        //Methods
         closeMenu,
         onDisplayMenu
     };

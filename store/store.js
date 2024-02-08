@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { clientSlice, loanSlice, uiSlice } from './';
+import { clientSlice, paymentSlice, loanSlice, uiSlice } from './';
 
 export const store = configureStore({
     reducer: {
         client: clientSlice.reducer,
-        ui: uiSlice.reducer,
         loan: loanSlice.reducer,
+        payment: paymentSlice.reducer,
+        ui: uiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         immutableCheck: false,

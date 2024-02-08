@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useLoanStore, useMenu, useUiStore } from "../../hooks";
 import { Icon, Menu } from "react-native-paper";
 
-export const LoanCard = ({ loan, client }) => {
+export const LoanCard = ({ loan }) => {
     
     const router = useRouter();
     const { setActiveLoan } = useLoanStore();
@@ -11,7 +11,7 @@ export const LoanCard = ({ loan, client }) => {
     const { showMenu, menuAnchor, closeMenu, onDisplayMenu } = useMenu();
     
     const onShowLoan = () => {
-        setActiveLoan(loan);  
+        setActiveLoan(loan);
 
         setBlockItemTrue(); //Disable the inputs and buttons to type in them
         setShowDialogFalse(); //Hide the delete dialog just in case
@@ -33,8 +33,8 @@ export const LoanCard = ({ loan, client }) => {
     return (
         <TouchableOpacity onPress={onShowLoan} style={styles.container}>
             <View>
-                <Text style={styles.label}>DOP ${loan.cantidadPrestada}</Text>
-                <Text style={{fontSize: 20, color: '#fff'}}>{loan.fechaPrestamo.toLocaleString('es-ES',{day: 'numeric', month: 'numeric', year: 'numeric'})}</Text>
+                <Text style={styles.label}>DOP ${loan.amount}</Text>
+                <Text style={{fontSize: 20, color: '#fff'}}>{loan.loan_date.toLocaleString('es-ES', {weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric'})}</Text>
             </View>
             <TouchableOpacity onPress={onDisplayMenu} style={styles.iconBtn}>
                 <Icon source="dots-vertical" size={30} color="#999" />

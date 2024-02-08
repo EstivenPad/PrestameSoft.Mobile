@@ -43,25 +43,23 @@ export default function ClientDetail() {
                     headerRight: () => ((!!activeClient?.id && blockItem) && <DeleteClientBtn/>)
                 }}
             />
-
-            <Image source={icons.avatar} style={styles.profile_icon} />
-
+            
             {
                 activeClient?.id 
                     && 
-                <Link href="/(tabs)/clients/loan-list" push asChild>
+                (<Link href="/(tabs)/clients/loan-list" push asChild>
                     <TouchableOpacity style={styles.btn_container}>
                         <Icon source="piggy-bank-outline" size={30} color={COLORS.white}/>
                         <Text style={styles.btn_label}>
                             Prestamos
                         </Text>
                     </TouchableOpacity>
-                </Link>
+                </Link>)
             }
             
             <CustomInput
                 control={control}
-                name="nombre"
+                name="name"
                 label="Nombre"
                 required="El Nombre es requerido"
                 isLoading={isLoading}
@@ -69,7 +67,7 @@ export default function ClientDetail() {
             />
             <CustomInput
                 control={control}
-                name="direccion"
+                name="address"
                 label="Direccion"
                 required="La Direccion es requerida"
                 isLoading={isLoading}
@@ -77,7 +75,7 @@ export default function ClientDetail() {
             />
             <MaskedInput
                 control={control}
-                name="cedula"
+                name="identification"
                 label="Cédula"
                 required="La Cédula es requerida"
                 minLenght={{
@@ -91,7 +89,7 @@ export default function ClientDetail() {
             />
             <MaskedInput
                 control={control}
-                name="telefono"
+                name="phone"
                 label="Teléfono"
                 required="El Teléfono es requerido"
                 minLenght={{
@@ -112,7 +110,7 @@ export default function ClientDetail() {
                 loading={isLoading}
                 disabled={isLoading || blockItem}
             >
-                Crear cliente
+                Guardar cliente
             </Button>
             {
                 !!activeClient?.id && <DialogMessage title="Eliminar" message="¿Esta seguro que desea eliminar este cliente?" handleAccept={onDeleteClient}/>

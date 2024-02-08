@@ -8,7 +8,7 @@ export const MoneyInput = ({
     control,
     name,
     label,
-    required,
+    required = '',
     placeholder,
     isLoading,
     blocked

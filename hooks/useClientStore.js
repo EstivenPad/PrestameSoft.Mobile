@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from "react-redux"
-import { FirebaseDB } from "../server/firebaseConfig";
-import { collection, deleteDoc, doc, getDocs, orderBy, query, setDoc, updateDoc } from "firebase/firestore/lite";
+import { useDispatch, useSelector } from "react-redux";
+import { supabase } from "../server/supabaseClient";
 import { 
     onAddNewClient,
     onGetClients,
@@ -23,31 +22,23 @@ export const useClientStore = () => {
     const getClients = async () => {
         dispatch(onSetLoadingTrue());
         
-        try {
-            //Sorted clients by name from firebase
-            const clientSorted = query(collection(FirebaseDB, 'Clientes'), orderBy("nombre"));
-            const clientsRef = await getDocs(clientSorted);
-            
-            const clients = [];
+        const clients = [];
+        const { data: Clients, error } = await supabase.from('clients').select('*').order('name', { ascending: true })
+        
+        if(error) console.log(error);
 
-            clientsRef.forEach((doc) => {
-                const { nombre, direccion, cedula, telefono } = doc.data();
-                
-                clients.push({
-                    id: doc.id,
-                    nombre,
-                    direccion,
-                    cedula,
-                    telefono
-                });
+        Clients.map(({ id, name, identification, address, phone }) => {
+            clients.push({
+                id,
+                name,
+                identification,
+                address,
+                phone
             });
+        });
 
-            dispatch(onGetClients(clients));
-        } catch (error) {
-            throw new Error(error);
-        } finally {            
-            dispatch(onSetLoadingFalse());
-        }
+        dispatch(onGetClients(clients));          
+        dispatch(onSetLoadingFalse());
     };
 
     const setActiveClient = (client = null) => {
@@ -57,49 +48,38 @@ export const useClientStore = () => {
     const setNewClient = async (client) => {
         dispatch(onSetLoadingTrue());
 
-        try {
-            const clientRef = doc(collection(FirebaseDB, 'Clientes'));
-            await setDoc(clientRef, client);
+        const { data:Client, error } = await supabase.from('clients').insert(client).select();
 
-            dispatch(onAddNewClient({ id: clientRef.id, ...client }));
-        } catch (error) {
-            throw new Error(error);
-        } finally {
-            dispatch(onSetLoadingFalse());
-        }
+        if(error) console.log(error);
+
+        dispatch(onAddNewClient({ ...Client[0] }));
+        dispatch(onSetLoadingFalse());
     };
 
     const updateClient = async (client = null) => {
         dispatch(onSetLoadingTrue());
         
-        try {
-            const clientToFirestore = {...client};
-            delete clientToFirestore.id;
+        const clientToDB = {...client};
+        delete clientToDB.id;
 
-            const clientRef = doc(FirebaseDB, 'Clientes', activeClient.id);            
-            await updateDoc(clientRef, clientToFirestore);
+        const { data:Client, error } = await supabase.from('clients').update(client).eq('id', activeClient.id).select();
+        
+        if(error) console.log(error);
 
-            dispatch(onUpdateClientById(client));
-        } catch (error) {
-            throw new Error(error);
-        } finally {
-            dispatch(onSetLoadingFalse());
-        }
+        dispatch(onUpdateClientById({ ...Client[0] }));
+        dispatch(onSetLoadingFalse());
     };
 
     const deleteClient = async (clientId) => {
         dispatch(onSetLoadingTrue());
         
-        try {    
-            await deleteDoc(doc(FirebaseDB, `Clientes/${clientId}`));
-             
-            dispatch(onDeleteClientById(clientId));
-        } catch (error) {
-            throw new Error(error);
-        } finally {
-            dispatch(onSetLoadingFalse());
-            dispatch(onSetShowDialogFalse());
-        }
+        const { error } = await supabase.from('clients').delete().eq('id', clientId);
+        
+        if(error) console.log(error);
+
+        dispatch(onDeleteClientById(clientId));
+        dispatch(onSetShowDialogFalse());
+        dispatch(onSetLoadingFalse());
     };
 
     return {

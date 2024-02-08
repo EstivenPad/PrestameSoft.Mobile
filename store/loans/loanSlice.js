@@ -4,16 +4,7 @@ export const loanSlice = createSlice({
     name: 'loan',
     initialState: {
         loans: [],
-        activeLoan: null
-        //{
-            // id: '',
-            //client: '000-0000000-0',
-            // cantidadPrestada: '',
-            // fechaPrestamo: new Date(),
-            // descripcionGarantia: '',
-            // cantidadQuincenas: '',
-            // quincenaInicio: false
-        //}
+        activeLoan: null,
     },
     reducers: {
         onGetLoans: (state, { payload }) => {
@@ -25,7 +16,7 @@ export const loanSlice = createSlice({
         onSetActiveLoan: (state, { payload }) => {
             state.activeLoan = payload;
         },
-        onUpdateLoanById: (state, { payload }) => {
+        onUpdateLoan: (state, { payload }) => {
             state.loans = state.loans.map(loan => {
                 if(loan.id === payload.id)
                     return payload;
@@ -33,6 +24,13 @@ export const loanSlice = createSlice({
                 return loan;
             });
         },
+        onDeleteLoan: (state, { payload }) => {
+            state.activeLoan = null;
+            state.loans = state.loans.filter((loan) => loan.id !== payload);
+        },
+        onSetLoanPayments: (state, {payload}) => {
+            state.loanPayments = payload;
+        }
     }
 });
 
@@ -41,5 +39,7 @@ export const {
     onGetLoans,
     onAddNewLoan,
     onSetActiveLoan,
-    onUpdateLoanById
+    onUpdateLoan,
+    onDeleteLoan,
+    onSetLoanPayments
 } = loanSlice.actions;

@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Stack } from 'expo-router';
 import { AddLoanBtn, LoanCard } from '../../../components/loans';
 import { useClientStore, useLoanStore, useUiStore } from '../../../hooks';
@@ -11,7 +11,7 @@ export default function LoanList () {
     const { isLoading } = useUiStore();
 
     useEffect(() => {
-        getLoans();
+        getLoans(activeClient.id); 
     }, []);
 
     return (
@@ -20,25 +20,29 @@ export default function LoanList () {
                 options={{
                     headerTitle: 'Prestamos',
                     headerRight: () => (
-                        <AddLoanBtn client={activeClient}/>
+                        <AddLoanBtn clientId={activeClient.id}/>
                     )
                 }}
             />
 
             <View>
                 <Text style={[styles.text, styles.name_label]}>CLIENTE:</Text>
-                <Text style={[styles.text, styles.name_display]}>{activeClient.nombre}</Text>
+                <Text style={[styles.text, styles.name_display]}>{activeClient.name}</Text>
             </View>
             
-            <FlatList
-                data={ loans }
-                renderItem={({ item }) => (
-                    <LoanCard loan={ item } client={activeClient}/>
-                )}
-                keyExtractor={ item => item.id }
-                refreshing={isLoading}
-                onRefresh={() => getLoans()}
-            />
+            { isLoading ? (
+                <ActivityIndicator size="large"/>
+            ) : (
+                <FlatList
+                    data={ loans }
+                    renderItem={({ item }) => (
+                        <LoanCard loan={ item }/>
+                    )}
+                    keyExtractor={ item => item.id }
+                    refreshing={isLoading}
+                    onRefresh={() => getLoans(activeClient.id)}
+                />
+            )}
         </SafeAreaView>
     )
 };

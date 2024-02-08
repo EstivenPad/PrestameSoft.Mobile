@@ -5,14 +5,6 @@ export const clientSlice = createSlice({
     initialState: {
         clients: [],
         activeClient: null,
-        //  Client structure
-        // {
-        //     id: 0,
-        //     nombre: "",
-        //     direccion: "",
-        //     cedula: "",
-        //     telefono: "",
-        // }
     },
     reducers: {
         onSetInitialState: (state) => {
