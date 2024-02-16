@@ -1,40 +1,55 @@
 import { ActivityIndicator, FlatList, SafeAreaView, View } from 'react-native';
 import { usePaymentStore, useUiStore } from '../../../hooks';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { useEffect } from 'react';
-import { PendingLoanCard } from '../../../components/payments';
+import { FortnightDialog, PendingLoanCard, RefreshPaymentBtn } from '../../../components/payments';
 
 export default function PaymentScreen() {
+    const { isLoading, showFortnightDialog, setShowFortnightDialogTrue, setShowFortnightDialogFalse } = useUiStore();
+    const { loansWithPendingPayments, getLoansWithPendingPayments } = usePaymentStore();
+    const pathname = usePathname();
     
-    const { isLoading } = useUiStore();
-    const { pendingPayments, getLoansWithPendingPayments } = usePaymentStore();
-
     useEffect(() => {
-        getLoansWithPendingPayments(true);
+        setShowFortnightDialogTrue();
     }, []);
+
+    const handleFortnight = async (fortnight) => {
+        await getLoansWithPendingPayments(fortnight);
+
+        setShowFortnightDialogFalse();
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, padding: 10 }}>
             <Stack.Screen 
                 options={{
-                    headerTitle: 'Prestamos Pendientes',
+                    headerTitle: 'Prestamos por cobrar',
+                    headerRight: () => (<RefreshPaymentBtn/>)
                 }}
             />
             
             { isLoading ? (
                 <ActivityIndicator size="large"/>
             ) : (
-                <View>
-                    <FlatList
-                        data={ pendingPayments }
-                        renderItem={({ item }) => (
-                            <PendingLoanCard loanItem={ item }/>
-                        )}
-                        keyExtractor={ item => item.loan.id }
-                        refreshing={isLoading}
-                        onRefresh={() => getLoansWithPendingPayments(true)}
-                    />
-                </View>
+                <>
+                    {
+                        (showFortnightDialog) && (pathname === '/payments')
+                            ?
+                        (<FortnightDialog handleOption={ handleFortnight }/>)
+                            :
+                        (<View>
+                            <FlatList
+                                data={ loansWithPendingPayments }
+                                renderItem={({ item }) => (
+                                    <PendingLoanCard loanItem={ item }/>
+                                )}
+                                keyExtractor={ item => item.loan.id }
+                                refreshing={ isLoading }
+                                onRefresh={() => setShowFortnightDialogTrue()}
+                            />
+                        </View>)
+                    }
+                </>
             )}
         </SafeAreaView>
     )

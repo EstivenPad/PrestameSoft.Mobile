@@ -1,38 +1,44 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { usePaymentStore, useUiStore } from '../../../hooks';
 import { Stack, useRouter } from 'expo-router';
 import { Button } from 'react-native-paper';
 import { COLORS } from '../../../constants';
-import { DateInput, MoneyInput, SwitchInput } from '../../../components/common';
+import { DateInput, DialogMessage, MoneyInput, SwitchInput } from '../../../components/common';
 import { useForm } from 'react-hook-form';
+import { numericFormatter } from 'react-number-format';
+import { DeletePaymentBtn } from '../../../components/payments';
 
 export default function PaymentDetail() {
+
     const router = useRouter();
-    const { activePayment, savePayment, getLoansWithPendingPayments } = usePaymentStore();
-    const { isLoading, blockItem } = useUiStore();      
+    const { activePayment, activeLoanItem, savePayment, updatePayment, deletePayment } = usePaymentStore();
+    const { isLoading, blockItem, setShowDialogFalse } = useUiStore();      
     const { control, handleSubmit, watch, setValue } = useForm({
         defaultValues: activePayment
     });
 
-    const handleSaving = (data) => {
-        // savePayment(data);
-        console.log(data)
-        // router.back();
-    }
+    const handleSaving = async (data) => {
+        if(activePayment?.id)
+            await updatePayment(data);
+        else
+            await savePayment(data);
 
-    const calculateCapitalInterestPending = () => {
-        // const capitalDeposit = watch('capital_deposit');
-        // const interestDeposit = watch('interest_deposit');
+        router.back();
+    };
 
-        // setValue('capital_to_pay', capitalDeposit);
-        // setValue('interest_to_pay', interestDeposit);
-    }
+    const onDeletePayment = async () => {
+        await deletePayment(activePayment);
+        setShowDialogFalse();
+
+        router.back();
+    };
 
     return (
         <SafeAreaView style={{ flex: 1, padding: 10 }}>
             <Stack.Screen
                 options={{
-                    headerTitle: (!!activePayment?.id ? 'Editar pago' : 'Nuevo pago')
+                    headerTitle: (!!activePayment?.id ? 'Editar cobro' : 'Nuevo cobro'),
+                    headerRight: () => (!!activePayment?.id && <DeletePaymentBtn/>)
                 }}
             />
 
@@ -40,8 +46,8 @@ export default function PaymentDetail() {
                 control={control}
                 watch={watch}
                 setValue={setValue}
-                name="payment_date"
-                label="Fecha del pago"
+                name="created_at"
+                label="Fecha del cobro"
                 isLoading={isLoading}
                 blocked={blockItem}
             />
@@ -49,10 +55,48 @@ export default function PaymentDetail() {
             <SwitchInput
                 control={control}
                 name="fortnight"
-                label="Pago Correspondiente a"
+                label="Quincena"
                 isLoading={isLoading}
                 blocked={blockItem}
             />
+
+            {!!!activePayment?.id && 
+                (<>
+                    <View style={styles.label_container}>
+                        <Text style={[styles.label, {fontWeight: 'bold'}]}>
+                            Capital a pagar: 
+                        </Text>
+                        <Text style={styles.label}> DOP$
+                            {
+                                numericFormatter(activeLoanItem.capital_remaining.toString(), {
+                                    thousandSeparator: true,
+                                    decimalScale: 0
+                                })
+                            }
+                        </Text>
+                    </View>
+
+                    <View style={styles.label_container}>
+                        <Text style={[styles.label, {fontWeight: 'bold'}]}>
+                            Interes a pagar: 
+                        </Text>
+                        <Text style={styles.label}> DOP$
+                            {
+                                numericFormatter((activeLoanItem.capital_remaining * 0.1).toString(), {
+                                    thousandSeparator: true,
+                                    decimalScale: 0
+                                })
+                            }
+                        </Text>
+                    </View>
+                </>)
+            }
+
+            {
+                !!activePayment?.id
+                    &&
+                <DialogMessage title="Eliminar" message="¿Esta seguro que desea eliminar este cobro?" handleAccept={onDeletePayment}/>
+            }
 
             <MoneyInput
                 control={control}
@@ -81,35 +125,18 @@ export default function PaymentDetail() {
                 disabled={isLoading || blockItem}
                 style={{marginTop: 10}}
             >
-                Guardar pago
+                Guardar cobro
             </Button>
         </SafeAreaView>
     )
-}
+};
 
 const styles = StyleSheet.create({
-    label_container: {
-        marginBottom: 10
-    },
-    label_title: {
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
-    label_description: {
+    label: {
         fontSize: 18
     },
-
-
-    text: {
-        fontSize: 20,
-        alignSelf: 'center'
-
-    },
-    name_label: {
-        fontWeight: 'bold',
-    },
-    name_display: {
-        marginBottom: 15,
-    },
-
+    label_container: {
+        flexDirection: 'row',
+        marginBottom: 10
+    }
 });

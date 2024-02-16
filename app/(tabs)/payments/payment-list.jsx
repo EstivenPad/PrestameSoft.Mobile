@@ -4,58 +4,74 @@ import { usePaymentStore } from '../../../hooks';
 import { COLORS } from '../../../constants/theme';
 import { PaymentCard } from '../../../components/payments';
 import { Icon } from 'react-native-paper';
+import { useState } from 'react';
+import { numericFormatter } from 'react-number-format';
 
 export default function PaymentList() {
 
     const router = useRouter();
-    const { activeLoanWithPendingPayments, setActivePayment } = usePaymentStore();
+    const { activeLoanItem, activeListPayments, setActivePayment } = usePaymentStore();
+
+    const [showMoreClient, setShowMoreClient] = useState(false);
 
     const createNewPayment = () => {
         setActivePayment({
-            payment_date: new Date(),
+            created_at: new Date(),
             capital_deposit: 0,
             interest_deposit: 0,
-            capital_to_pay: 0,
-            interest_to_pay: 0,
             fortnight: false
         });
         
         router.push('/(tabs)/payments/payment-detail');
     }
-
+    
     return (
         <SafeAreaView style={{flex: 1, padding: 10}}>
             <Stack.Screen
                 options={{
-                    headerTitle: 'Pagos'
+                    headerTitle: 'Cobros'
                 }}
             />
             
-            <View style={styles.card_information}>
-                <Text style={[styles.label_client_information, {alignSelf: 'center', fontWeight: 'bold'}]}>DATOS DEL CLIENTE:</Text>
-                <Text style={styles.label_client_information}>Nombre: {activeLoanWithPendingPayments.loan.clients.name}</Text>
-                <Text style={styles.label_client_information}>Direccion: {activeLoanWithPendingPayments.loan.clients.address}</Text>
-                <Text style={styles.label_client_information}>Telefono: {activeLoanWithPendingPayments.loan.clients.phone}</Text>
-            </View>
+            <TouchableOpacity onPress={() => setShowMoreClient(!showMoreClient)}>
+                <View style={styles.card}>
+                    <Text style={[styles.label, {alignSelf: 'center', fontWeight: 'bold'}]}>DATOS DEL CLIENTE:</Text>
+                    <Text style={styles.label}>Nombre: {activeLoanItem.clients.name}</Text>
+                    {
+                        showMoreClient && (
+                            <>
+                                <Text style={styles.label}>Direccion: {activeLoanItem.clients.address}</Text>
+                                <Text style={styles.label}>Telefono: {activeLoanItem.clients.phone}</Text>
+                            </>
+                        )
+                    }
+                    
+                        <Text style={{alignSelf: 'center', color: showMoreClient ? COLORS.danger : COLORS.blue}}>{showMoreClient ? 'Ocultar...' : 'Mostrar mas...'}</Text>
+                </View>
+            </TouchableOpacity>
 
-            <View style={styles.card_information}>
-                <Text style={[styles.label_client_information, {alignSelf: 'center', fontWeight: 'bold'}]}>DATOS DEL PRESTAMO:</Text>
-                <Text style={styles.label_client_information}>Monto Prestado: DOP$ {activeLoanWithPendingPayments.loan.amount}</Text>
-                <Text style={styles.label_client_information}>Capital restante a pagar: DOP$ {activeLoanWithPendingPayments.loan.capital_remaining}</Text>
+            <View style={styles.card}>
+                <Text style={[styles.label, {alignSelf: 'center', fontWeight: 'bold'}]}>DATOS DEL PRESTAMO:</Text>
+                <Text style={styles.label}>
+                    Capital restante: ${numericFormatter(activeLoanItem.capital_remaining.toString(), {thousandSeparator: true, decimalScale: 0})}
+                </Text>
+                <Text style={styles.label}>
+                    Interes a pagar: ${numericFormatter((activeLoanItem.capital_remaining * 0.1).toString(), {thousandSeparator: true, decimalScale: 0})}
+                </Text>
             </View>
 
             <TouchableOpacity onPress={createNewPayment}>
                 <View style={styles.payment_button_wrapper}>
-                    <Icon source="plus" size={30} color={COLORS.white} />
-                    <Text style={styles.payment_button_label}>Nuevo Pago</Text>
+                    <Icon source="plus" size={30} color={COLORS.pure_white} />
+                    <Text style={styles.payment_button_label}>Nuevo Cobro</Text>
                 </View>
             </TouchableOpacity>
 
             <FlatList
                 style={styles.payment_container}
-                data={ activeLoanWithPendingPayments.payments }
+                data={ activeListPayments }
                 renderItem={({ item, index }) => (
-                    <PaymentCard paymentItem={ item } index={ index + 1 } />
+                    <PaymentCard paymentItem={ item } index={ index + 1 } /> 
                 )}
                 keyExtractor={ item => item.id }
             />
@@ -64,22 +80,22 @@ export default function PaymentList() {
 }
 
 const styles = StyleSheet.create({
-    card_information: {
+    card: {
         padding: 10,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: COLORS.gray,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.pure_white,
         marginBottom: 10,
     },
-    label_client_information: {
+    label: {
         fontSize: 18,
     },
     payment_container: {
         borderColor: COLORS.gray,
         borderRadius: 10,
         borderWidth: 1,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.pure_white,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
     },
@@ -93,7 +109,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 9,
     },
     payment_button_label: {
-        color: COLORS.white,
+        color: COLORS.pure_white,
         fontWeight: 'bold',
         alignSelf: 'center',
         fontSize: 18

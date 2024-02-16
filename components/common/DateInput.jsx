@@ -12,7 +12,7 @@ export const DateInput = ({
     label,
     required,
     isLoading,
-    blocked
+    blocked = false
 }) => {  
     const selectedDate = watch(name);
     const [showDatePicker, setShowDatePicker] = useState(false);

@@ -9,7 +9,7 @@ export const CustomInput = ({
     label,
     required,
     isLoading,
-    blocked
+    blocked = false
 }) => {
     return (
         <Controller

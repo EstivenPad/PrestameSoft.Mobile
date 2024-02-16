@@ -3,6 +3,7 @@ import { Icon } from "react-native-paper";
 import { COLORS } from "../../constants/theme";
 import { useRouter } from "expo-router";
 import { usePaymentStore } from "../../hooks";
+import { numericFormatter } from "react-number-format";
 
 export const PaymentCard = ({ paymentItem, index }) => {
 
@@ -12,7 +13,7 @@ export const PaymentCard = ({ paymentItem, index }) => {
     const onDisplayPayment = () => {
         setActivePayment({
             ...paymentItem,
-            payment_date: new Date(paymentItem.payment_date)
+            created_at: new Date(paymentItem.created_at)
         });
 
         router.push('/(tabs)/payments/payment-detail');
@@ -28,15 +29,15 @@ export const PaymentCard = ({ paymentItem, index }) => {
                 <View style={styles.payment_info}>
                     <View style={styles.label_wrapper}>
                         <Text style={[styles.label, styles.name_label]}>Fecha: </Text>
-                        <Text style={styles.label}>{new Date(paymentItem.payment_date).toLocaleString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric'})}</Text>
+                        <Text style={styles.label}>{new Date(paymentItem.created_at).toLocaleString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric'})}</Text>
                     </View>
                     <View style={styles.label_wrapper}>
-                        <Text style={[styles.label, styles.name_label]}>Capital: </Text>
-                        <Text style={styles.label}>${paymentItem.capital_deposit}</Text>
+                        <Text style={[styles.label, styles.name_label]}>Abono Capital: </Text>
+                        <Text style={styles.label}>${numericFormatter(paymentItem.capital_deposit.toString(), {thousandSeparator: true, decimalScale: 0})}</Text>
                     </View>
                     <View style={styles.label_wrapper}>
-                        <Text style={[styles.label, styles.name_label]}>Interes: </Text>
-                        <Text style={styles.label}>${paymentItem.interest_deposit}</Text>
+                        <Text style={[styles.label, styles.name_label]}>Abono Interes: </Text>
+                        <Text style={styles.label}>${numericFormatter(paymentItem.interest_deposit.toString(), {thousandSeparator: true, decimalScale: 0})}</Text>
                     </View>
                 </View>
                 

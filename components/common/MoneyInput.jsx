@@ -11,7 +11,7 @@ export const MoneyInput = ({
     required = '',
     placeholder,
     isLoading,
-    blocked
+    blocked = false
 }) => {
     return (
         <Controller
@@ -51,7 +51,7 @@ export const MoneyInput = ({
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 15
+        marginBottom: 10
     },
     label: {
         fontSize: 20,

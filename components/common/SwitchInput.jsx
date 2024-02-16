@@ -6,7 +6,7 @@ export const SwitchInput = ({
     name,
     label,
     isLoading,
-    blocked
+    blocked = false
 }) => {
     return (
         <Controller
@@ -43,6 +43,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     switch_label: {
-        fontSize: 18,
+        fontSize: 18
     }
 });

@@ -6,6 +6,7 @@ export const uiSlice = createSlice({
         isLoading: false,
         blockItem: false,
         showDialog: false,
+        showFortnightDialog: false,
     },
     reducers: {
         onSetLoadingTrue: (state) => {
@@ -25,7 +26,13 @@ export const uiSlice = createSlice({
         },
         onSetShowDialogFalse: (state) => {
             state.showDialog = false;
-        }
+        },
+        onSetShowFortnightDialogTrue: (state) => {
+            state.showFortnightDialog = true;
+        },
+        onSetShowFortnightDialogFalse: (state) => {
+            state.showFortnightDialog = false;
+        },
     }
 });
 
@@ -36,5 +43,7 @@ export const {
     onSetShowDialogTrue,
     onSetShowDialogFalse,
     onSetBlockItemTrue,
-    onSetBlockItemFalse
+    onSetBlockItemFalse,
+    onSetShowFortnightDialogTrue,
+    onSetShowFortnightDialogFalse
 } = uiSlice.actions;

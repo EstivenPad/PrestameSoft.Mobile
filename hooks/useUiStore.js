@@ -5,13 +5,15 @@ import {
     onSetLoadingTrue,
     onSetLoadingFalse,
     onSetBlockItemTrue,
-    onSetBlockItemFalse
+    onSetBlockItemFalse,
+    onSetShowFortnightDialogTrue,
+    onSetShowFortnightDialogFalse
 } from "../store";
 
 export const useUiStore = () => {
     const dispatch = useDispatch();
     
-    const { isLoading, showDialog, blockItem } = useSelector(state => state.ui);
+    const { isLoading, showDialog, blockItem, showFortnightDialog } = useSelector(state => state.ui);
 
     const setLoadingTrue = () => {
         dispatch(onSetLoadingTrue());
@@ -31,10 +33,18 @@ export const useUiStore = () => {
 
     const setShowDialogTrue = () => {
         dispatch(onSetShowDialogTrue());
-    }
+    };
     
     const setShowDialogFalse = () => {
         dispatch(onSetShowDialogFalse());
+    };
+
+    const setShowFortnightDialogTrue = () => {
+        dispatch(onSetShowFortnightDialogTrue());
+    };
+    
+    const setShowFortnightDialogFalse = () => {
+        dispatch(onSetShowFortnightDialogFalse());
     };
 
     return {
@@ -42,6 +52,7 @@ export const useUiStore = () => {
         isLoading,
         blockItem,
         showDialog,
+        showFortnightDialog,
         
         //Methods
         setLoadingTrue,
@@ -49,6 +60,8 @@ export const useUiStore = () => {
         setBlockItemTrue,
         setBlockItemFalse,
         setShowDialogTrue,
-        setShowDialogFalse
+        setShowDialogFalse,
+        setShowFortnightDialogTrue,
+        setShowFortnightDialogFalse
     };
 }

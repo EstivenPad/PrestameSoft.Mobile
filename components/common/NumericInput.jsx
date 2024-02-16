@@ -9,7 +9,7 @@ export const NumericInput = ({
     label,
     required,
     isLoading,
-    blocked
+    blocked = false
 }) => {
     return (
         <Controller

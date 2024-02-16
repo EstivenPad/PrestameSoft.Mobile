@@ -16,8 +16,7 @@ export const AddLoanBtn = ({clientId}) => {
         setActiveLoan({
             client_id: clientId,
             amount: '',
-            capital_remaining: '',
-            loan_date: new Date()
+            capital_remaining: ''
         });
 
         router.push('/(tabs)/clients/loan-detail');

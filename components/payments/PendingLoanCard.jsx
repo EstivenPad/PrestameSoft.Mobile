@@ -3,15 +3,18 @@ import { Icon } from "react-native-paper";
 import { COLORS } from "../../constants/theme";
 import { useRouter } from "expo-router";
 import { usePaymentStore, useUiStore } from "../../hooks";
+import { numericFormatter } from "react-number-format";
 
 export const PendingLoanCard = ({ loanItem }) => {
     
     const router = useRouter();
-    const { setActiveLoanWithPendingPayments } = usePaymentStore();
+    const { setActiveLoanItem, setActiveListPayments } = usePaymentStore();
     const { setBlockItemFalse } = useUiStore();
     
     const onDisplayPayment = () => {
-        setActiveLoanWithPendingPayments(loanItem);
+        setActiveLoanItem(loanItem.loan);
+        setActiveListPayments(loanItem.payments);
+        
         setBlockItemFalse();
         
         router.push('/(tabs)/payments/payment-list');
@@ -23,7 +26,9 @@ export const PendingLoanCard = ({ loanItem }) => {
                 <View style={styles.client_info}>
                     <Text style={[styles.label, styles.name_label]}>{loanItem.loan.clients.name}</Text>
                     <Text style={styles.label}>{loanItem.loan.clients.address}</Text>
-                    <Text style={[styles.label, styles.money_label]}>DOP$ {loanItem.loan.amount}</Text>
+                    <Text style={[styles.label, styles.money_label]}>
+                        DOP$ {numericFormatter(loanItem.loan.amount.toString(), {thousandSeparator: true, decimalScale: 0})}
+                    </Text>
                 </View>
                 <View style={styles.iconBtn}>
                     <Icon source="chevron-right" size={30} color={COLORS.primary} />

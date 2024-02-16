@@ -31,7 +31,7 @@ export const clientSlice = createSlice({
         },
         onDeleteClientById: (state, { payload }) => {
             state.activeClient = null;
-            state.clients = state.clients.filter((client) => client.id !== payload);
+            state.clients = state.clients.filter(client => client.id !== payload);
         }
     }
 });

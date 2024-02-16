@@ -12,6 +12,7 @@ export const loanSlice = createSlice({
         },
         onAddNewLoan: (state, { payload }) => {
             state.loans.push(payload);
+            state.activeLoan = null;
         },
         onSetActiveLoan: (state, { payload }) => {
             state.activeLoan = payload;

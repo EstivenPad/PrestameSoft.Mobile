@@ -23,13 +23,14 @@ export const useLoanStore = () => {
         
         if(error) console.log(error);
 
-        Loans.map(({ id, client_id, amount, capital_remaining, loan_date:supabaseDate }) => {
+        Loans.map(({ id, client_id, amount, capital_remaining, created_at:created_date }) => {
+            
             loansToDispatch.push({
                 id,
                 client_id,
                 amount,
                 capital_remaining,
-                loan_date: new Date(supabaseDate)
+                created_at: new Date(created_date)
             });
         });
         
@@ -49,8 +50,8 @@ export const useLoanStore = () => {
         
         if(error) console.log(error);
         
-        //Converte the returned date into a Date object of JS 
-        dispatch(onAddNewLoan({ ...Loan[0], loan_date: new Date(Loan[0].loan_date) }));
+        // Converte the returned date into a Date object of JS 
+        dispatch(onAddNewLoan({ ...Loan[0], created_at: new Date(Loan[0].created_at) }));
         dispatch(onSetLoadingFalse());
     };    
 
@@ -63,7 +64,7 @@ export const useLoanStore = () => {
         const { data:Loan, error } = await supabase.from('loans').update(loanToDB).eq('id', activeLoan.id).select();
         if(error) console.log(error);
 
-        dispatch(onUpdateLoan({ ...Loan[0], loan_date: new Date(Loan[0].loan_date) }));
+        dispatch(onUpdateLoan({ ...Loan[0], created_at: new Date(Loan[0].created_at) }));
         dispatch(onSetLoadingFalse());
     };
 

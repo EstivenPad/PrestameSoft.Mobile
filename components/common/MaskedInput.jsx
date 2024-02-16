@@ -13,7 +13,7 @@ export const MaskedInput = ({
     placeholder,
     mask,
     isLoading,
-    blocked
+    blocked = false
 }) => {
     return (
         <Controller

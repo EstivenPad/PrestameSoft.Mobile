@@ -18,9 +18,7 @@ export default function ClientScreen() {
             <Stack.Screen
                 options={{
                     headerTitle: 'Clientes',
-                    headerRight: () => (
-                        <AddClientBtn/>
-                    )
+                    headerRight: () => !isLoading && (<AddClientBtn/>)
                 }}
             />
 

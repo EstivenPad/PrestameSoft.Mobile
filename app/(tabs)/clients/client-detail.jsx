@@ -1,22 +1,20 @@
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Button, Icon } from "react-native-paper";
 import { Link, Stack, useRouter } from "expo-router";
 import { CustomInput, MaskedInput, DialogMessage } from "../../../components/common";
 import { DeleteClientBtn } from "../../../components/clients/DeleteClientBtn";
 import { useForm } from "react-hook-form";
 import { useClientStore, useUiStore } from "../../../hooks";
-import { COLORS, cedulaMask, icons, phoneMask } from "../../../constants";
+import { COLORS, cedulaMask, phoneMask } from "../../../constants";
 
 export default function ClientDetail() {
 
     const router = useRouter();
     const { activeClient, setNewClient, updateClient, deleteClient } = useClientStore();
-    const { isLoading, blockItem, setShowDialogTrue, setShowDialogFalse } = useUiStore();
-
+    const { isLoading, setShowDialogFalse } = useUiStore();
     const { control, handleSubmit } = useForm({
         defaultValues: activeClient
     });
-
 
     const handleSaving = async (data) => {
         if(activeClient?.id)
@@ -28,7 +26,6 @@ export default function ClientDetail() {
     };
 
     const onDeleteClient = async () => {
-        setShowDialogTrue();
         await deleteClient(activeClient.id);
         setShowDialogFalse();
 
@@ -39,8 +36,8 @@ export default function ClientDetail() {
         <SafeAreaView style={{ flex: 1, padding: 10 }}>
             <Stack.Screen
                 options={{
-                    headerTitle: "Clientes",
-                    headerRight: () => ((!!activeClient?.id && blockItem) && <DeleteClientBtn/>)
+                    headerTitle: (!!activeClient?.id ? 'Editar cliente' : 'Nuevo cliente'),
+                    headerRight: () => (!!activeClient?.id) && <DeleteClientBtn/>
                 }}
             />
             
@@ -63,16 +60,16 @@ export default function ClientDetail() {
                 label="Nombre"
                 required="El Nombre es requerido"
                 isLoading={isLoading}
-                blocked={blockItem}
             />
+            
             <CustomInput
                 control={control}
                 name="address"
                 label="Direccion"
                 required="La Direccion es requerida"
                 isLoading={isLoading}
-                blocked={blockItem}
             />
+
             <MaskedInput
                 control={control}
                 name="identification"
@@ -85,8 +82,8 @@ export default function ClientDetail() {
                 placeholder="000-0000000-0"
                 mask={cedulaMask}
                 isLoading={isLoading}
-                blocked={blockItem}
             />
+
             <MaskedInput
                 control={control}
                 name="phone"
@@ -99,7 +96,6 @@ export default function ClientDetail() {
                 placeholder="(000)-000-0000"
                 mask={phoneMask}
                 isLoading={isLoading}
-                blocked={blockItem}
             />
 
             <Button
@@ -108,12 +104,14 @@ export default function ClientDetail() {
                 onPress={handleSubmit(handleSaving)}
                 buttonColor={COLORS.primary}
                 loading={isLoading}
-                disabled={isLoading || blockItem}
+                disabled={isLoading}
             >
                 Guardar cliente
             </Button>
             {
-                !!activeClient?.id && <DialogMessage title="Eliminar" message="¿Esta seguro que desea eliminar este cliente?" handleAccept={onDeleteClient}/>
+                !!activeClient?.id 
+                    &&
+                <DialogMessage title="Eliminar" message="¿Esta seguro que desea eliminar este cliente?" handleAccept={onDeleteClient}/>
             }
         </SafeAreaView>
     );
