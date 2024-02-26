@@ -95,6 +95,9 @@ export const usePaymentStore = () => {
         const loan_updated = {...activeLoanItem};
         delete loan_updated.clients;
 
+        // Calculate the difference between the capital remaining's interest and the interest deposit for adding to the capital remaining
+        const dif = (activeLoanItem.capital_remaining * 0.1) - payment.interest_deposit;
+        
         // Save the new payment on Supabase
         const { data:created_payment, error: created_payment_error } = await supabase
             .from('payments')
@@ -107,14 +110,14 @@ export const usePaymentStore = () => {
         const { error: loan_error } = await supabase
             .from('loans')
             .update({
-                ...loan_updated, 
-                capital_remaining: (activeLoanItem.capital_remaining - payment.capital_deposit)
+                ...loan_updated,
+                capital_remaining: (activeLoanItem.capital_remaining - payment.capital_deposit) + dif,
             })
             .eq('id', activeLoanItem.id)
 
         if(loan_error) console.log(loan_error);
 
-        dispatch(onAddNewPayment(created_payment[0]));
+        dispatch(onAddNewPayment({payment_item: created_payment[0], difference: dif}));
         dispatch(onSetLoadingFalse());
     };
 
@@ -122,7 +125,7 @@ export const usePaymentStore = () => {
         dispatch(onSetLoadingTrue());
 
         // Calculate the difference between the past value and the updated value of the capital deposit
-        const difference = payment.capital_deposit - activePayment.capital_deposit;
+        const dif = payment.capital_deposit - activePayment.capital_deposit;
 
         // Update the payment on Supabase
         const { data:updated_payment, error: updated_payment_error } = await supabase
@@ -136,12 +139,12 @@ export const usePaymentStore = () => {
         // Update the Capital Remaining of the loan specified on Supabase
         const { error: loan_error } = await supabase
             .from('loans')
-            .update({capital_remaining: activeLoanItem.capital_remaining - difference})
+            .update({capital_remaining: activeLoanItem.capital_remaining - dif})
             .eq('id', activeLoanItem.id);
         
         if(loan_error) console.log(loan_error);
 
-        dispatch(onUpdatePayment({payment_item: updated_payment[0], dif: difference}));
+        dispatch(onUpdatePayment({payment_item: updated_payment[0], difference: dif}));
         dispatch(onSetLoadingFalse());
     };
 

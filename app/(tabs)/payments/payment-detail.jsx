@@ -60,37 +60,33 @@ export default function PaymentDetail() {
                 blocked={blockItem}
             />
 
-            {!!!activePayment?.id && 
-                (<>
-                    <View style={styles.label_container}>
-                        <Text style={[styles.label, {fontWeight: 'bold'}]}>
-                            Capital a pagar: 
-                        </Text>
-                        <Text style={styles.label}> DOP$
-                            {
-                                numericFormatter(activeLoanItem.capital_remaining.toString(), {
-                                    thousandSeparator: true,
-                                    decimalScale: 0
-                                })
-                            }
-                        </Text>
-                    </View>
+            <View style={styles.label_container}>
+                <Text style={[styles.label, {fontWeight: 'bold'}]}>
+                    Capital restante: 
+                </Text>
+                <Text style={styles.label}> DOP$
+                    {
+                        numericFormatter(activeLoanItem.capital_remaining.toString(), {
+                            thousandSeparator: true,
+                            decimalScale: 0
+                        })
+                    }
+                </Text>
+            </View>
 
-                    <View style={styles.label_container}>
-                        <Text style={[styles.label, {fontWeight: 'bold'}]}>
-                            Interes a pagar: 
-                        </Text>
-                        <Text style={styles.label}> DOP$
-                            {
-                                numericFormatter((activeLoanItem.capital_remaining * 0.1).toString(), {
-                                    thousandSeparator: true,
-                                    decimalScale: 0
-                                })
-                            }
-                        </Text>
-                    </View>
-                </>)
-            }
+            <View style={styles.label_container}>
+                <Text style={[styles.label, {fontWeight: 'bold'}]}>
+                    Interes a pagar: 
+                </Text>
+                <Text style={styles.label}> DOP$
+                    {
+                        numericFormatter((activeLoanItem.capital_remaining * 0.1).toString(), {
+                            thousandSeparator: true,
+                            decimalScale: 0
+                        })
+                    }
+                </Text>
+            </View>
 
             {
                 !!activePayment?.id

@@ -22,8 +22,9 @@ export const paymentSlice = createSlice({
             state.loansWithPendingPayments = payload;
         },
         onAddNewPayment: (state, { payload }) => {
-            state.activeListPayments.push(payload);
-            state.activeLoanItem.capital_remaining -= payload.capital_deposit;
+            state.activeListPayments.push(payload.payment_item);
+            state.activeLoanItem.capital_remaining -= payload.payment_item.capital_deposit;
+            state.activeLoanItem.capital_remaining += payload.difference;
             state.activePayment = null;
         },
         onUpdatePayment: (state, { payload }) => {
@@ -33,7 +34,7 @@ export const paymentSlice = createSlice({
 
                 return payment;
             });
-            state.activeLoanItem.capital_remaining -= payload.dif;
+            state.activeLoanItem.capital_remaining -= payload.difference;
             state.activePayment = null;
         },
         onDeletePayment: (state, { payload }) => {

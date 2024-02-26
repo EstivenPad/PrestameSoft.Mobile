@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Create a single supabase client for interacting with your database
-export const supabase = createClient('https://fosgbfskkrffgtmzahvn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvc2diZnNra3JmZmd0bXphaHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYwMzQwNDQsImV4cCI6MjAyMTYxMDA0NH0.AsceTa8K4tibp0x__tRZbBp419axFBtBwMhntZZqgnM', {
+export const supabase = createClient(process.env.EXPO_PUBLIC_SUPABASE_URL, process.env.EXPO_PUBLIC_SUPABASE_KEY, {
     auth: {
         storage: AsyncStorage,
         autoRefreshToken: true,

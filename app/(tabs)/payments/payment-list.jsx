@@ -11,7 +11,6 @@ export default function PaymentList() {
 
     const router = useRouter();
     const { activeLoanItem, activeListPayments, setActivePayment } = usePaymentStore();
-
     const [showMoreClient, setShowMoreClient] = useState(false);
 
     const createNewPayment = () => {
@@ -45,8 +44,7 @@ export default function PaymentList() {
                             </>
                         )
                     }
-                    
-                        <Text style={{alignSelf: 'center', color: showMoreClient ? COLORS.danger : COLORS.blue}}>{showMoreClient ? 'Ocultar...' : 'Mostrar mas...'}</Text>
+                    <Text style={{alignSelf: 'center', color: showMoreClient ? COLORS.danger : COLORS.blue}}>Mostrar {showMoreClient ? 'menos' : 'mas...'}</Text>
                 </View>
             </TouchableOpacity>
 
