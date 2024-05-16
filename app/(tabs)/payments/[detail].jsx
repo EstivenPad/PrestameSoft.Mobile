@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { usePaymentStore, useUiStore } from '../../../hooks';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Button } from 'react-native-paper';
 import { COLORS } from '../../../constants';
 import { DateInput, DialogMessage, MoneyInput, SwitchInput } from '../../../components/common';
@@ -11,11 +11,12 @@ import { DeletePaymentBtn } from '../../../components/payments';
 export default function PaymentDetail() {
 
     const router = useRouter();
-    const { activePayment, activeLoanItem, savePayment, updatePayment, deletePayment } = usePaymentStore();
+    const { activePayment, activeListPayments, activeLoanItem, savePayment, updatePayment, deletePayment } = usePaymentStore();
     const { isLoading, blockItem, setShowDialogFalse } = useUiStore();      
     const { control, handleSubmit, watch, setValue } = useForm({
         defaultValues: activePayment
     });
+    const { detail } = useLocalSearchParams()
 
     const handleSaving = async (data) => {
         if(activePayment?.id)
@@ -34,11 +35,11 @@ export default function PaymentDetail() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, padding: 10 }}>
+        <SafeAreaView style={{ flex: 1, margin: 10 }}>
             <Stack.Screen
                 options={{
-                    headerTitle: (!!activePayment?.id ? 'Editar cobro' : 'Nuevo cobro'),
-                    headerRight: () => (!!activePayment?.id && <DeletePaymentBtn/>)
+                    headerTitle: (!!activePayment?.id ? `Cobro #${detail}` : `Nuevo cobro`),
+                    headerRight: () => ((!!activePayment?.id && activeListPayments.length == detail) && <DeletePaymentBtn/>)
                 }}
             />
 
@@ -107,22 +108,37 @@ export default function PaymentDetail() {
                 control={control}
                 name="interest_deposit"
                 label="Abono Interes"
+                max={5}
                 placeholder="DOP$ 0"
                 isLoading={isLoading}
                 blocked={blockItem}
             />
 
-            <Button
-                icon="currency-usd"
-                mode="contained"
-                onPress={handleSubmit(handleSaving)}
-                buttonColor={COLORS.primary}
-                loading={isLoading}
-                disabled={isLoading || blockItem}
-                style={{marginTop: 10}}
-            >
-                Guardar cobro
-            </Button>
+            <View>
+                <Button
+                    icon="currency-usd"
+                    mode="contained"
+                    onPress={handleSubmit(handleSaving)}
+                    buttonColor={COLORS.primary}
+                    loading={isLoading}
+                    disabled={isLoading || blockItem}
+                    style={{marginTop: 10, flexGrow: 1}}
+                >
+                    Guardar
+                </Button>
+
+                <Button
+                    icon="printer"
+                    mode="contained"
+                    onPress={() => {}}
+                    buttonColor={COLORS.warning}
+                    loading={isLoading}
+                    disabled={isLoading || blockItem}
+                    style={{marginTop: 10, flexGrow: 1}}
+                >
+                    Imprimir
+                </Button>
+            </View>
         </SafeAreaView>
     )
 };

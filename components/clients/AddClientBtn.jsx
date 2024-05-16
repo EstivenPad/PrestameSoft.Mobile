@@ -1,7 +1,8 @@
-import { useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native";
-import { Icon } from "react-native-paper";
+import { useRouter } from "expo-router";
 import { useUiStore, useClientStore } from "../../hooks";
+import { COLORS } from "../../constants/theme";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export const AddClientBtn = () => {
         
@@ -28,7 +29,7 @@ export const AddClientBtn = () => {
         <TouchableOpacity
             onPress={onAddClient}
         >
-            <Icon source="account-plus" size={30} color="#fff" />
+            <Ionicons name="person-add" size={28} color={COLORS.pure_white} />
         </TouchableOpacity>
     );
 };

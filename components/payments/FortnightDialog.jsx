@@ -10,19 +10,19 @@ export const FortnightDialog = ({handleOption}) => {
     return (
         <>
             <Portal>
-                <Modal visible={ showFortnightDialog } onDismiss={ setShowFortnightDialogFalse } contentContainerStyle={{ backgroundColor:'white', padding:20 }}>
-                    <Text style={styles.title}>Seleccione la Quincena correspondiente:</Text>
+                <Modal visible={ showFortnightDialog } onDismiss={ setShowFortnightDialogFalse } contentContainerStyle={styles.modal}>
+                    <Text style={styles.title}>Seleccione la QUINCENA correspondiente:</Text>
 
                     <View style={styles.button_container}>
                         <TouchableOpacity onPress={async() => await handleOption(false)}>
                             <View style={styles.button_wrapper}>
-                                <Text style={styles.label_button}>1ra Quincena</Text>
+                                <Text style={styles.label_button}>1ra QUINCENA</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={async() => await handleOption(true)}>
                             <View style={styles.button_wrapper}>
-                                <Text style={styles.label_button}>2da Quincena</Text>
+                                <Text style={styles.label_button}>2da QUINCENA</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -33,10 +33,15 @@ export const FortnightDialog = ({handleOption}) => {
 };
 
 const styles = StyleSheet.create({
+    modal: { 
+        backgroundColor:'white',
+        borderRadius: 5,
+        padding:20,
+        marginHorizontal:10
+    },
     title: {
-        alignSelf: 'center',
+        textAlign: 'center',
         marginBottom: 15,
-        fontSize: 15
     },
     button_container: {
         flexDirection: 'row',
@@ -46,7 +51,7 @@ const styles = StyleSheet.create({
     button_wrapper: {
         padding: 10,
         backgroundColor: COLORS.primary,
-        borderRadius: 25,
+        borderRadius: 20,
     },
     label_button: {
         color: COLORS.pure_white

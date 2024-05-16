@@ -1,12 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Icon } from "react-native-paper";
 import { COLORS } from "../../constants/theme";
 import { useRouter } from "expo-router";
 import { usePaymentStore, useUiStore } from "../../hooks";
 import { numericFormatter } from "react-number-format";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export const PendingLoanCard = ({ loanItem }) => {
-    
     const router = useRouter();
     const { setActiveLoanItem, setActiveListPayments } = usePaymentStore();
     const { setBlockItemFalse } = useUiStore();
@@ -27,11 +26,11 @@ export const PendingLoanCard = ({ loanItem }) => {
                     <Text style={[styles.label, styles.name_label]}>{loanItem.loan.clients.name}</Text>
                     <Text style={styles.label}>{loanItem.loan.clients.address}</Text>
                     <Text style={[styles.label, styles.money_label]}>
-                        DOP$ {numericFormatter(loanItem.loan.amount.toString(), {thousandSeparator: true, decimalScale: 0})}
+                        DOP$ {numericFormatter(loanItem.loan.capital_remaining.toString(), {thousandSeparator: true, decimalScale: 0})}
                     </Text>
                 </View>
                 <View style={styles.iconBtn}>
-                    <Icon source="chevron-right" size={30} color={COLORS.primary} />
+                    <Ionicons name="chevron-forward" size={28} color={COLORS.primary} />
                 </View>
             </View>
         </TouchableOpacity>

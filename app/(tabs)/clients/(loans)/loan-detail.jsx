@@ -1,11 +1,11 @@
 import { Stack, useRouter } from "expo-router";
 import { SafeAreaView, View } from "react-native";
 import { useForm } from "react-hook-form";
-import { useLoanStore, useUiStore } from "../../../hooks";
-import { DateInput, DialogMessage, MoneyInput } from "../../../components/common";
-import { COLORS } from "../../../constants";
+import { useLoanStore, useUiStore } from "../../../../hooks";
+import { DateInput, DialogMessage, MoneyInput } from "../../../../components/common";
+import { COLORS } from "../../../../constants";
 import { Button } from "react-native-paper";
-import { DeleteLoanBtn } from "../../../components/loans";
+import { DeleteLoanBtn } from "../../../../components/loans";
 
 export default function LoanDetail() {
     

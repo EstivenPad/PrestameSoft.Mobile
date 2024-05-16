@@ -1,20 +1,40 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, FlatList, View, ActivityIndicator } from "react-native";
 import { Stack } from "expo-router";
 import { ClientCard, AddClientBtn } from "../../../components/clients";
 import { useClientStore, useUiStore } from "../../../hooks";
+import { Searchbar } from 'react-native-paper';
 
 export default function ClientScreen() {
     
     const { clients, getClients } = useClientStore();
     const { isLoading } = useUiStore();
-    
+    const [search, setSearch] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+
     useEffect(() => {
         getClients();
+        setFilteredData(clients);
     }, []);
 
+    const searchFunction = (text) => {
+        if(text){
+            const updatedData = clients.filter((item) => { 
+                const item_data = item.name ? item.name.toUpperCase() : ''.toUpperCase(); 
+                const text_data = text.toUpperCase(); 
+                return item_data.indexOf(text_data) > -1; 
+            });
+    
+            setFilteredData(updatedData);
+        }else{
+            setFilteredData(clients);
+        }
+
+        setSearch(text);
+    }
+
     return (
-        <SafeAreaView style={{ flex: 1, padding: 10 }}>
+        <SafeAreaView style={{ flex: 1 }}>
             <Stack.Screen
                 options={{
                     headerTitle: 'Clientes',
@@ -22,12 +42,21 @@ export default function ClientScreen() {
                 }}
             />
 
+            <View style={{ margin: 10, marginBottom: 0 }}>
+                <Searchbar
+                    placeholder="Search"
+                    onChangeText={(value) => searchFunction(value)}
+                    value={search}
+                    theme={{ colors: { elevation: { level3: '#fff' } } }}
+                />
+            </View>
+
             <View style={{ flex: 1, padding: 10 }}>
                 { isLoading ? (
                     <ActivityIndicator size="large"/>
                 ) : (
                     <FlatList
-                        data={ clients }
+                        data={ filteredData }
                         renderItem={({ item }) => (
                             <ClientCard client={ item }/>
                         )}
@@ -40,4 +69,3 @@ export default function ClientScreen() {
         </SafeAreaView>
     );
 };
-

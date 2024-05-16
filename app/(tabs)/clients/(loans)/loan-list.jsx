@@ -1,7 +1,7 @@
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Stack } from 'expo-router';
-import { AddLoanBtn, LoanCard } from '../../../components/loans';
-import { useClientStore, useLoanStore, useUiStore } from '../../../hooks';
+import { AddLoanBtn, LoanCard } from '../../../../components/loans';
+import { useClientStore, useLoanStore, useUiStore } from '../../../../hooks';
 import { useEffect } from 'react';
 
 export default function LoanList () {
@@ -15,7 +15,7 @@ export default function LoanList () {
     }, []);
 
     return (
-        <SafeAreaView style={{ flex: 1, padding: 10 }}>
+        <SafeAreaView style={{ flex: 1 }}>
             <Stack.Screen 
                 options={{
                     headerTitle: 'Prestamos',

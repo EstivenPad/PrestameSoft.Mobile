@@ -20,10 +20,10 @@ export default function PaymentScreen() {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, padding: 10 }}>
+        <SafeAreaView style={{ flex: 1, margin: 5 }}>
             <Stack.Screen 
                 options={{
-                    headerTitle: 'Prestamos por cobrar',
+                    headerTitle: 'Cobros',
                     headerRight: () => (<RefreshPaymentBtn/>)
                 }}
             />

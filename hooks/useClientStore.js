@@ -8,7 +8,8 @@ import {
     onSetLoadingTrue,
     onDeleteClientById,
     onSetShowDialogFalse,
-    onUpdateClientById
+    onUpdateClientById,
+    onSetClients
 } from "../store";
 
 export const useClientStore = () => {
@@ -40,6 +41,10 @@ export const useClientStore = () => {
         dispatch(onGetClients(clients));          
         dispatch(onSetLoadingFalse());
     };
+
+    const setClients = (newClients) => {
+        dispatch(onSetClients(newClients));
+    }
 
     const setActiveClient = (client = null) => {
         dispatch(onSetActiveClient(client));
@@ -88,6 +93,7 @@ export const useClientStore = () => {
         activeClient,
 
         //Methods
+        setClients,
         setNewClient,
         getClients,
         setActiveClient,

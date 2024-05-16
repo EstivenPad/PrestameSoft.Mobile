@@ -1,11 +1,12 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Button, Icon } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { Link, Stack, useRouter } from "expo-router";
 import { CustomInput, MaskedInput, DialogMessage } from "../../../components/common";
 import { DeleteClientBtn } from "../../../components/clients/DeleteClientBtn";
 import { useForm } from "react-hook-form";
 import { useClientStore, useUiStore } from "../../../hooks";
 import { COLORS, cedulaMask, phoneMask } from "../../../constants";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function ClientDetail() {
 
@@ -33,7 +34,7 @@ export default function ClientDetail() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, padding: 10 }}>
+        <SafeAreaView style={{ flex: 1, margin: 10 }}>
             <Stack.Screen
                 options={{
                     headerTitle: (!!activeClient?.id ? 'Editar cliente' : 'Nuevo cliente'),
@@ -46,7 +47,7 @@ export default function ClientDetail() {
                     && 
                 (<Link href="/(tabs)/clients/loan-list" push asChild>
                     <TouchableOpacity style={styles.btn_container}>
-                        <Icon source="piggy-bank-outline" size={30} color={COLORS.white}/>
+                        <Ionicons name="wallet-outline" size={28} color={COLORS.pure_white}/>
                         <Text style={styles.btn_label}>
                             Prestamos
                         </Text>
@@ -66,7 +67,7 @@ export default function ClientDetail() {
                 control={control}
                 name="address"
                 label="Direccion"
-                required="La Direccion es requerida"
+                required="La Dirección es requerida"
                 isLoading={isLoading}
             />
 

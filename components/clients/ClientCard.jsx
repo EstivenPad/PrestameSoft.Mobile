@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Icon } from "react-native-paper";
 import { useClientStore, useUiStore } from "../../hooks";
 import { COLORS } from "../../constants/theme";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export const ClientCard = ({ client }) => {    
 
@@ -22,7 +22,7 @@ export const ClientCard = ({ client }) => {
             <Text style={styles.label}>{ client.name }</Text>
             
             <View style={styles.iconBtn}>
-                <Icon source="chevron-right" size={25} color={COLORS.gray} />
+                <Ionicons name="chevron-forward" size={25} color={COLORS.gray} />
             </View>
         </TouchableOpacity>
     );

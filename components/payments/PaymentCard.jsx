@@ -1,14 +1,15 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Icon } from "react-native-paper";
 import { COLORS } from "../../constants/theme";
 import { useRouter } from "expo-router";
-import { usePaymentStore } from "../../hooks";
+import { usePaymentStore, useUiStore } from "../../hooks";
 import { numericFormatter } from "react-number-format";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export const PaymentCard = ({ paymentItem, index }) => {
 
     const router = useRouter()
     const { setActivePayment } = usePaymentStore();
+    const { setBlockItemTrue } = useUiStore();
 
     const onDisplayPayment = () => {
         setActivePayment({
@@ -16,7 +17,9 @@ export const PaymentCard = ({ paymentItem, index }) => {
             created_at: new Date(paymentItem.created_at)
         });
 
-        router.push('/(tabs)/payments/payment-detail');
+        setBlockItemTrue();
+
+        router.push(`/(tabs)/payments/${index}`);
     };
 
     return (
@@ -42,7 +45,7 @@ export const PaymentCard = ({ paymentItem, index }) => {
                 </View>
                 
                 <View style={styles.iconBtn}>
-                    <Icon source="chevron-right" size={30} color={COLORS.primary} />
+                    <Ionicons name="chevron-forward" size={28} color={COLORS.primary} />
                 </View>
             </View>
         </TouchableOpacity>

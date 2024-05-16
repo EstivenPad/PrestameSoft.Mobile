@@ -12,7 +12,6 @@ const PaymentRoot = () => {
                 headerTitleAlign: "center",
             }}
         />
-
     )
 };
 

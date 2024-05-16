@@ -1,6 +1,7 @@
 import { TouchableOpacity } from "react-native";
-import { Icon } from "react-native-paper";
 import { useUiStore } from "../../hooks";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { COLORS } from "../../constants";
 
 export const DeleteClientBtn = () => {
     
@@ -14,7 +15,7 @@ export const DeleteClientBtn = () => {
         <TouchableOpacity
             onPress={onDeleteClient}
         >
-            <Icon source="delete" size={30} color="#fff" />
+            <Ionicons name="trash" size={28} color={COLORS.pure_white} />
         </TouchableOpacity>
     );
 };

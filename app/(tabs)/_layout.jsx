@@ -14,7 +14,7 @@ const TabLayout = () => {
             options={{
                 tabBarLabel: 'Inicio',
                 tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="rocket-sharp" color={color} size={size} />
+                    <Ionicons name="bar-chart-outline" color={color} size={size} />
                 ),
             }}
         />
@@ -23,7 +23,7 @@ const TabLayout = () => {
             options={{
                 tabBarLabel: 'Clientes',
                 tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="people-circle-outline" color={color} size={size} />
+                    <Ionicons name="people-outline" color={color} size={size} />
                 ),
             }}
         />

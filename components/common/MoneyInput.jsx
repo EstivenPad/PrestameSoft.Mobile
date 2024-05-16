@@ -9,6 +9,7 @@ export const MoneyInput = ({
     name,
     label,
     required = '',
+    max = null,
     placeholder,
     isLoading,
     blocked = false
@@ -17,7 +18,10 @@ export const MoneyInput = ({
         <Controller
             control={control}
             name={name}
-            rules={{required: required}}
+            rules={{
+                required: required, 
+                max: max 
+            }}
             render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
                 <View style={styles.container}>
                     <CurrencyInput

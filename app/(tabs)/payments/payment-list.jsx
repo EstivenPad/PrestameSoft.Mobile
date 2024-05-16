@@ -1,16 +1,16 @@
 import { Stack, useRouter } from 'expo-router';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { usePaymentStore } from '../../../hooks';
+import { usePaymentStore, useUiStore } from '../../../hooks';
 import { COLORS } from '../../../constants/theme';
 import { PaymentCard } from '../../../components/payments';
-import { Icon } from 'react-native-paper';
 import { useState } from 'react';
 import { numericFormatter } from 'react-number-format';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function PaymentList() {
-
     const router = useRouter();
     const { activeLoanItem, activeListPayments, setActivePayment } = usePaymentStore();
+    const { setBlockItemFalse } = useUiStore();
     const [showMoreClient, setShowMoreClient] = useState(false);
 
     const createNewPayment = () => {
@@ -21,11 +21,13 @@ export default function PaymentList() {
             fortnight: false
         });
         
+        setBlockItemFalse();
+
         router.push('/(tabs)/payments/payment-detail');
     }
     
     return (
-        <SafeAreaView style={{flex: 1, padding: 10}}>
+        <SafeAreaView style={{flex: 1, margin: 5}}>
             <Stack.Screen
                 options={{
                     headerTitle: 'Cobros'
@@ -60,8 +62,8 @@ export default function PaymentList() {
 
             <TouchableOpacity onPress={createNewPayment}>
                 <View style={styles.payment_button_wrapper}>
-                    <Icon source="plus" size={30} color={COLORS.pure_white} />
-                    <Text style={styles.payment_button_label}>Nuevo Cobro</Text>
+                    <Ionicons name="add" size={28} color={COLORS.pure_white} />
+                    <Text style={styles.payment_button_label}>Crear Nuevo Cobro</Text>
                 </View>
             </TouchableOpacity>
 
