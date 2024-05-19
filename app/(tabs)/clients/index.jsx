@@ -14,9 +14,12 @@ export default function ClientScreen() {
 
     useEffect(() => {
         getClients();
-        setFilteredData(clients);
     }, []);
 
+    useEffect(() => {
+      setFilteredData(clients);
+    }, [clients])
+    
     const searchFunction = (text) => {
         if(text){
             const updatedData = clients.filter((item) => { 
@@ -31,7 +34,7 @@ export default function ClientScreen() {
         }
 
         setSearch(text);
-    }
+    };
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -45,7 +48,7 @@ export default function ClientScreen() {
             <View style={{ margin: 10, marginBottom: 0 }}>
                 <Searchbar
                     placeholder="Search"
-                    onChangeText={(value) => searchFunction(value)}
+                    onChangeText={(text) => searchFunction(text)}
                     value={search}
                     theme={{ colors: { elevation: { level3: '#fff' } } }}
                 />

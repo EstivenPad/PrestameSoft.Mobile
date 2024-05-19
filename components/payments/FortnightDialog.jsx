@@ -11,18 +11,18 @@ export const FortnightDialog = ({handleOption}) => {
         <>
             <Portal>
                 <Modal visible={ showFortnightDialog } onDismiss={ setShowFortnightDialogFalse } contentContainerStyle={styles.modal}>
-                    <Text style={styles.title}>Seleccione la QUINCENA correspondiente:</Text>
+                    <Text style={styles.title}>Seleccione la 'Quincena' correspondiente:</Text>
 
                     <View style={styles.button_container}>
                         <TouchableOpacity onPress={async() => await handleOption(false)}>
                             <View style={styles.button_wrapper}>
-                                <Text style={styles.label_button}>1ra QUINCENA</Text>
+                                <Text style={styles.label_button}>1ra Quincena</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={async() => await handleOption(true)}>
                             <View style={styles.button_wrapper}>
-                                <Text style={styles.label_button}>2da QUINCENA</Text>
+                                <Text style={styles.label_button}>2da Quincena</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

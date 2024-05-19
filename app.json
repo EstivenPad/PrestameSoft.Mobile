@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "react-native-prestamos",
-    "slug": "react-native-prestamos",
+    "name": "PrestameSoft.Mobile",
+    "slug": "PrestameSoft.Mobile",
     "version": "1.0.0",
-    "scheme": "react-native-prestamos",
+    "scheme": "PrestameSoft.Mobile",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
