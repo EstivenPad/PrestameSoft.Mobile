@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Controller } from "react-hook-form";
-import { COLORS } from "../../constants";
+import { COLORS } from "../../assets";
 
 export const DateInput = ({
     control,

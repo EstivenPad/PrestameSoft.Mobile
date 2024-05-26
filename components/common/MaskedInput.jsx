@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
 import MaskInput from 'react-native-mask-input';
-import { COLORS } from '../../constants'
+import { COLORS } from '../../assets'
 
 export const MaskedInput = ({
     control,

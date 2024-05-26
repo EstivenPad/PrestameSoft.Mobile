@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
-import { COLORS } from '../../constants';
+import { COLORS } from '../../assets';
 import CurrencyInput from 'react-native-currency-input';
 
 export const MoneyInput = ({

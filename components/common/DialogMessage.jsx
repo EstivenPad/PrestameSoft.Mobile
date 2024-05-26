@@ -1,6 +1,6 @@
 import { Portal, Dialog, Text, Button } from "react-native-paper";
 import { useUiStore } from "../../hooks/useUiStore";
-import { COLORS } from "../../constants";
+import { COLORS } from "../../assets";
 
 export const DialogMessage = ({ title, message, handleAccept }) => {
 

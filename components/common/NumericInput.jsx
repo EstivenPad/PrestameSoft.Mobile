@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
-import { COLORS } from '../../constants';
+import { COLORS } from '../../assets';
 
 export const NumericInput = ({
     control,
