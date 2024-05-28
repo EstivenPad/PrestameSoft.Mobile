@@ -17,5 +17,5 @@ export const COLORS:theme = {
     white: "#edf2f4",
     blue: "#00a6fb",
     warning: "#ffb703",
-    pure_white: "#fff"
+    pure_white: "#fff",
 };

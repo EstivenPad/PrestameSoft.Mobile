@@ -5,7 +5,7 @@ import { CustomInput, MaskedInput, DialogMessage } from "../../../components/com
 import { DeleteClientBtn } from "../../../components/clients/DeleteClientBtn";
 import { IClient } from "../../../utils/interfaces/IClient";
 import { Link, Stack, useRouter } from "expo-router";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useClientStore, useUiStore } from "../../../hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -15,8 +15,12 @@ export default function ClientDetail() {
     const router = useRouter();
     const { activeClient, setNewClient, updateClient, deleteClient } = useClientStore();
     const { isLoading, setShowDialogFalse } = useUiStore();
-
-    const { control, handleSubmit } = useForm<IClient>({defaultValues: { ...activeClient }});
+    const { 
+        control,
+        handleSubmit
+    } = useForm<IClient>({
+        defaultValues: { ...activeClient }
+    });
 
     const handleSaving:SubmitHandler<IClient> = async (data) => {
         if(activeClient?.id)
@@ -47,10 +51,13 @@ export default function ClientDetail() {
                     && 
                 (<Link href="/(tabs)/clients/loan-list" push asChild>
                     <TouchableOpacity style={styles.btn_container}>
-                        <Ionicons name="wallet-outline" size={28} color={COLORS.pure_white}/>
-                        <Text style={styles.btn_label}>
-                            Prestamos
-                        </Text>
+                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                            <Ionicons name="wallet" size={28} color={COLORS.primary}/>
+                            <Text style={styles.btn_label}>
+                                Prestamos
+                            </Text>
+                        </View>
+                        <Ionicons name="arrow-forward" size={28} color={COLORS.primary}/>
                     </TouchableOpacity>
                 </Link>)
             }
@@ -120,17 +127,18 @@ export default function ClientDetail() {
 
 const styles = StyleSheet.create({
     btn_container: {
-        display: 'flex', 
-        flexDirection: 'row', 
-        alignSelf: 'center', 
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: COLORS.primary, 
-        borderRadius: 30, 
-        padding: 10,
-        marginBottom: 15
+        backgroundColor: COLORS.darkGray, 
+        borderRadius: 10, 
+        padding: 20,
+        marginBottom: 15,
     },
     btn_label: {
-        fontSize: 18, 
+        fontSize: 18,
+        fontWeight: 'bold',
         marginLeft: 5, 
         color: COLORS.white,
     },

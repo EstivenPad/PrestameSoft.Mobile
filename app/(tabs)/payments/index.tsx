@@ -61,7 +61,7 @@ export default function PaymentScreen() {
                         (<FortnightDialog handleOption={ handleFortnight }/>)
                             :
                         (<View>
-                            <View style={{ marginTop: 5, marginBottom: 10 }}>
+                            <View style={{ marginBottom: 10 }}>
                                 <Searchbar
                                     placeholder="Search"
                                     onChangeText={(text) => searchFunction(text)}

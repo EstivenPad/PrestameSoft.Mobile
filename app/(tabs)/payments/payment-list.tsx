@@ -35,23 +35,21 @@ export default function PaymentList() {
             />
             
             <TouchableOpacity onPress={() => setShowMoreClient(!showMoreClient)}>
-                <View style={styles.card}>
-                    <Text style={[styles.label, {alignSelf: 'center', fontWeight: 'bold'}]}>DATOS DEL CLIENTE:</Text>
+                <View style={[styles.card, {paddingBottom: 4}]}>
+                    <Text style={[styles.label, {alignSelf: 'center', fontWeight: 'bold'}]}>CLIENTE</Text>
                     <Text style={styles.label}>Nombre: {activeLoanItem.clients.name}</Text>
-                    {
-                        showMoreClient && (
-                            <>
-                                <Text style={styles.label}>Direccion: {activeLoanItem.clients.address}</Text>
-                                <Text style={styles.label}>Telefono: {activeLoanItem.clients.phone}</Text>
-                            </>
-                        )
-                    }
-                    <Text style={{alignSelf: 'center', color: showMoreClient ? COLORS.danger : COLORS.blue}}>Mostrar {showMoreClient ? 'menos' : 'mas...'}</Text>
+                    {showMoreClient && (
+                        <>
+                            <Text style={styles.label}>Dirección: {activeLoanItem.clients.address}</Text>
+                            <Text style={styles.label}>Teléfono: {activeLoanItem.clients.phone}</Text>
+                        </>
+                    )}
+                    <Ionicons name={showMoreClient ? "chevron-up" : "chevron-down"} style={{alignSelf: 'center'}} size={20} color={COLORS.gray} />
                 </View>
             </TouchableOpacity>
 
             <View style={styles.card}>
-                <Text style={[styles.label, {alignSelf: 'center', fontWeight: 'bold'}]}>DATOS DEL PRESTAMO:</Text>
+                <Text style={[styles.label, {alignSelf: 'center', fontWeight: 'bold'}]}>PRESTAMO</Text>
                 <Text style={styles.label}>
                     Capital restante: ${numericFormatter(activeLoanItem.capital_remaining.toString(), {thousandSeparator: true, decimalScale: 0})}
                 </Text>
@@ -63,7 +61,7 @@ export default function PaymentList() {
             <TouchableOpacity onPress={createNewPayment}>
                 <View style={styles.payment_button_wrapper}>
                     <Ionicons name="add" size={28} color={COLORS.pure_white} />
-                    <Text style={styles.payment_button_label}>Crear Nuevo Cobro</Text>
+                    <Text style={styles.payment_button_label}>Crear nuevo cobro</Text>
                 </View>
             </TouchableOpacity>
 

@@ -38,7 +38,7 @@ export default function ClientScreen() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, margin: 5 }}>
             <Stack.Screen
                 options={{
                     headerTitle: 'Clientes',
@@ -46,7 +46,7 @@ export default function ClientScreen() {
                 }}
             />
 
-            <View style={{ margin: 10, marginBottom: 0 }}>
+            <View style={{ marginBottom: 10 }}>
                 <Searchbar
                     placeholder="Search"
                     onChangeText={(text) => searchFunction(text)}
@@ -55,7 +55,7 @@ export default function ClientScreen() {
                 />
             </View>
 
-            <View style={{ flex: 1, padding: 10 }}>
+            <View style={{ flex: 1 }}>
                 { isLoading ? (
                     <ActivityIndicator size="large"/>
                 ) : (

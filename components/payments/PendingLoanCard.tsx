@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.darkGray,
         borderRadius: 10,
         padding: 10,
-        marginBottom: 15,
+        marginBottom: 10,
         alignItems: 'center',
     },
     iconBtn: {
@@ -58,14 +58,12 @@ const styles = StyleSheet.create({
     name_label: {
         color: '#fff',
         fontWeight: "bold",
-        marginBottom: 5,
     },
     money_label: {
         color: COLORS.primary
     },
     label: {
-      fontSize: 20,
+      fontSize: 18,
       color: '#fff',
-      marginBottom: 5,
     },
 })

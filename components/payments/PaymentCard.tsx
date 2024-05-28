@@ -45,7 +45,7 @@ export const PaymentCard = ({ paymentItem, index }) => {
                 </View>
                 
                 <View style={styles.iconBtn}>
-                    <Ionicons name="chevron-forward" size={28} color={COLORS.primary} />
+                    <Ionicons name="arrow-forward" size={28} color={COLORS.primary} />
                 </View>
             </View>
         </TouchableOpacity>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
     iconBtn: {
         position: 'absolute',
-        right: 5
+        right: 8
     },
     payment_info: {
         width: '90%'
